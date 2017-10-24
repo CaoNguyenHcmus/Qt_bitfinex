@@ -23,10 +23,10 @@ public slots:
 
 signals:
     void valueChanged(double);
-
+/*
 private slots:
     void on_exitButton_clicked();
-
+*/
 private:
     Ui::Widget *ui;
 };
