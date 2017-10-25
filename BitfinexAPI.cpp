@@ -66,11 +66,12 @@ accessKey(accessKey), secretKey(secretKey), curl(NULL)
         "etcusd", "bfxusd", "bfxbtc",
         "rrtusd", "rrtbtc", "zecusd",
         "zecbtc", "xmrusd", "xmrbtc",
-        "iotusd","iotbtc","ioteth"  //Add
+        "iotusd","iotbtc","ioteth",  //Add
+        "eosusd","eosbtc","eoseth"  //Add
     };
     currencies =
     {
-        "USD", "BTC", "ETH", "ETC", "BFX", "ZEC", "LTC"
+        "USD", "BTC", "ETH", "ETC", "BFX", "ZEC", "LTC", "EOS"
     };
     methods =
     {
@@ -395,8 +396,20 @@ newOrder(string &result, const string &symbol, const double &amount,
     string params = "{\"request\":\"/v1/order/new\",\"nonce\":\"" + getTonce() + "\"";
     
     params += ",\"symbol\":\"" + symbol + "\"";
+#if 1 /* debug amount */
     params += ",\"amount\":\"" + to_string(amount) + "\"";
+
+    //params += ",\"amount\":\"" + "0,125" + "\"";
+    //cout << "test: amount: "<< to_string((float)0.5) <<"\n";
+    cout << "BitfinexAPI debug: amount: "<< params <<"\n";
+#endif /* debug amount */
+
+#if 1 /* debug price */
+    //params += ",\"price\":\"" + to_string((int)1) + "\"";
     params += ",\"price\":\"" + to_string(price) + "\"";
+
+    //cout << "BitfinexAPI price: "<< params <<"\n";
+#endif /* debug price */
     params += ",\"side\":\"" + side + "\"";
     params += ",\"type\":\"" + type + "\"";
     params += ",\"is_hidden\":" + bool2string(is_hidden);

@@ -1251,6 +1251,9 @@ widget.o: widget.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qjsonarray.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QJsonObject \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdialog.h \
 		menu/currencymenu.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QMenu \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmenu.h \

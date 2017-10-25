@@ -5,11 +5,12 @@
 #include "ui_widget.h"
 #include <QDebug>
 
+#if 0
 namespace Ui {
 class Widget;
 }
-
-class Widget : public QWidget, public Ui::Widget
+#endif
+class Widget : public QWidget, public Ui::Widget //multiple inherence
 {
     Q_OBJECT
 
@@ -27,8 +28,12 @@ signals:
 private slots:
     void on_exitButton_clicked();
 */
+private slots:
+    void on_buyButton_clicked();
+#if 0
 private:
     Ui::Widget *ui;
+#endif
 };
 
 #endif // WIDGET_H
