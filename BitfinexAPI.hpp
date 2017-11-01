@@ -10,9 +10,10 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <vector>
-
-
-
+#include <QString>      /* For order */
+#include <QDebug>       /* For debug */
+#include <iostream>
+#include <string>
 using std::string;
 using std::vector;
 
@@ -48,7 +49,7 @@ public:
     typedef vector<sOrder> vOrders;
     
     typedef vector<long long> vIds;
-    
+
     // Constructor - destructor
     explicit BitfinexAPI(const string &accessKey, const string &secretKey);
     ~BitfinexAPI();
@@ -123,7 +124,27 @@ public:
     int getUnusedTakenFunds(string &result);
     int getTotalTakenFunds(string &result);
     int closeLoan(string &result, const long long &offer_id);
-    
+
+    static string textFromDouble(const double& val) /* from julymath.h */ 
+    {
+        string s_val = std::to_string(val);
+        std::cout << "s_val: " << s_val << "\n";
+        QString numberText = QString::fromStdString(s_val);  //covert double -> string -> QString
+        qDebug() << "DEBUG: numberText: " << numberText;
+        while (numberText[numberText.length() - 1] == '0')
+        {
+            numberText.chop(1);
+        }
+        if (numberText[numberText.length() - 1] == '.' || numberText[numberText.length() - 1] == ',')
+        {
+            numberText.chop(1);
+        }
+        qDebug() << "DEBUG: numberText: " << numberText;
+        QString comma_to_dot = numberText.replace(",",".");
+        qDebug() << "DEBUG: numberText comma to dot: " << comma_to_dot;
+        return comma_to_dot.toLocal8Bit().constData(); //covert QString to string
+    };
+
 private:
     
     // BitfinexAPI object cannot be copied

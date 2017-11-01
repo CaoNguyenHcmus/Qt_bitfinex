@@ -30,10 +30,13 @@ private slots:
 */
 private slots:
     void on_buyButton_clicked();
-#if 0
+    void on_sellButton_clicked();
+    void on_pushButton_clicked();
+
 private:
-    Ui::Widget *ui;
-#endif
+    //Ui::Widget *ui;
+    std::vector<QString> symbols; // possible symbol pairs
+
 };
 
 #endif // WIDGET_H

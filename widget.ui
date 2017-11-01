@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>273</height>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="bidsLabelIndicator">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>90</y>
+     <x>30</x>
+     <y>100</y>
      <width>67</width>
      <height>17</height>
     </rect>
@@ -29,7 +29,7 @@
   <widget class="QDoubleSpinBox" name="marketBid">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>90</x>
      <y>90</y>
      <width>69</width>
      <height>27</height>
@@ -64,8 +64,8 @@
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>150</y>
+     <x>290</x>
+     <y>230</y>
      <width>99</width>
      <height>27</height>
     </rect>
@@ -146,6 +146,47 @@
    <property name="placeholderText">
     <string>price</string>
    </property>
+  </widget>
+  <widget class="QPushButton" name="sellButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>230</y>
+     <width>99</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sell</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>150</y>
+     <width>99</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>get last trade</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="currencyMenuCombo">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>None</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

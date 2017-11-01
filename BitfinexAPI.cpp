@@ -34,6 +34,7 @@
 #include <regex>
 #include <chrono>
 
+
 #include <cryptopp/hmac.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/hex.h>
@@ -396,19 +397,56 @@ newOrder(string &result, const string &symbol, const double &amount,
     string params = "{\"request\":\"/v1/order/new\",\"nonce\":\"" + getTonce() + "\"";
     
     params += ",\"symbol\":\"" + symbol + "\"";
+#if 0 /* static QString textFromDouble(const double& val, int maxDecimals, int minDecimals) from julymath.h*/
+    double val = amount;
+    int floorLength = QString::number(floor(val), 'f', 0).length();
+    int decimals = 16 - floorLength;
+
+    if (val < 0)
+        decimals++;
+    std::cout << "DEBUG: floorLength: " << floorLength << "\tdecimals: "<< decimals <<"\n";
+//    if (decimals < minDecimals)
+//        decimals = minDecimals;
+
+    QString numberText = QString::number(val, 'f', decimals);
+
+//    int resultLength = floorLength + maxDecimals + 1;
+    int resultLength = floorLength + 1;
+    if (numberText.length() > resultLength)
+        numberText.chop(numberText.length() - resultLength);
+
+    int minLength = floorLength;
+
+//    if (minDecimals > 0)
+//        minLength += minDecimals + 1;
+    qDebug() << "DEBUG: numberText: " << numberText << "\tresultLength" << resultLength << "\tminLength" << minLength;
+
+    while (numberText[numberText.length() - 1] == '0' && numberText.length() > minLength)
+        numberText.chop(1);
+
+    if (numberText[numberText.length() - 1] == '.')
+        numberText.chop(1);
+    qDebug() << "DEBUG: numberText: " << numberText;
+//    return numberText;
+#endif
+#if 0 /* Nguyen Cao dev: Finish */
+    string amount_s = textFromDouble(amount);
+    std::cout << "DEBUG: amount_s: " << amount_s <<"\n";
+#endif /* Nguyen Cao dev */
 #if 1 /* debug amount */
-    params += ",\"amount\":\"" + to_string(amount) + "\"";
+    //QByteArray data = byteArrayFromDouble(amount,, 0);
+    params += ",\"amount\":\"" + textFromDouble(amount) + "\"";
 
     //params += ",\"amount\":\"" + "0,125" + "\"";
     //cout << "test: amount: "<< to_string((float)0.5) <<"\n";
-    cout << "BitfinexAPI debug: amount: "<< params <<"\n";
+    //cout << "BitfinexAPI debug: amount: "<< params <<"\n";
 #endif /* debug amount */
 
 #if 1 /* debug price */
     //params += ",\"price\":\"" + to_string((int)1) + "\"";
-    params += ",\"price\":\"" + to_string(price) + "\"";
+    params += ",\"price\":\"" + textFromDouble(price) + "\"";
 
-    //cout << "BitfinexAPI price: "<< params <<"\n";
+    cout << "BitfinexAPI price: "<< params <<"\n";
 #endif /* debug price */
     params += ",\"side\":\"" + side + "\"";
     params += ",\"type\":\"" + type + "\"";
