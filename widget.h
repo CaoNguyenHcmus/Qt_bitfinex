@@ -33,6 +33,10 @@ private slots:
     void on_sellButton_clicked();
     void on_pushButton_clicked();
 
+    void on_queryButton_clicked();
+
+    void on_replaceOrderButton_clicked();
+
 private:
     //Ui::Widget *ui;
     std::vector<QString> symbols; // possible symbol pairs

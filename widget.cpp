@@ -627,3 +627,178 @@ void Widget::on_pushButton_clicked()
         ifs.close();
     }
 }
+//Know how convert QJSonArray from QJSonDocument and query in  QJSonObject via QVariantMap
+void Widget::on_queryButton_clicked()
+{
+    qDebug()<< "debug: on_queryButton_clicked...";
+
+    const char *keyFilePath = "key.md";
+    ifstream ifs(keyFilePath);
+    if (!ifs.is_open())
+    {
+//        cout << "Can't open file: " << argv[1] << endl;
+        cout << "Can't open file: " << endl;
+        //qDebug << "Can't open file: " << keyFilePath << endl;
+      //return -1;
+    }
+    else
+    {
+        string accessKey, secretKey;
+        getline(ifs, accessKey);
+        getline(ifs, secretKey);
+
+        qDebug()<< "Finish get key...";
+        BitfinexAPI bfxAPI(accessKey, secretKey);
+        string response;
+        int errCode;
+
+        //  errCode = bfxAPI.cancelOrders(response, ids);
+        //
+        //  errCode = bfxAPI.cancelAllOrders(response);
+        //  errCode = bfxAPI.replaceOrder(response, 1321548521LL, "btcusd", 0.05, 1212, "sell",
+        //                                "exchange limit", 0, 0);
+        //errCode = bfxAPI.getOrderStatus(response, 12113548453LL);
+        errCode = bfxAPI.getActiveOrders(response);
+
+        /////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////
+
+        cout << "Response: " << response << endl;
+        cout << "Error code: " << errCode << endl;
+
+        ////////////////
+#if 1
+        //Convert
+        QString json_string = QString::fromStdString(response);
+//        qDebug() << json_string;
+
+        QByteArray json_bytes = json_string.toLocal8Bit();
+
+        auto jsonResponse=QJsonDocument::fromJson(json_bytes);
+//        QJsonObject jsonObject = jsonResponse.object(); //https://stackoverflow.com/questions/19822211/qt-parsing-json-using-qjsondocument-qjsonobject-qjsonarray
+        QJsonArray jsonArray = jsonResponse.array(); //Returns the QJsonArray contained in the document.
+
+        foreach (const QJsonValue & value, jsonArray) {
+            QJsonObject json_obj = value.toObject();
+            QVariantMap json_map = json_obj.toVariantMap();
+            //QStringList orders_list;
+#if 0
+int replaceOrder(string &result, const long long &order_id, const string &symbol,
+                 const double &amount, const double &price, const string &side,
+                 const string &type, const bool &is_hidden = 0,
+                 const bool &use_remaining = 0);
+
+            QString orders = json_map["id"].toString() + json_map["symbol"].toString() + \
+                    json_map["original_amount"].toString() + json_map["price"].toString() + json_map["side"].toString() + \
+                    json_map["type"].toString();
+
+            qDebug() << "orders (QString type): "<< orders;
+#endif
+            qDebug()<< json_map["id"].toString() << json_map["cid_date"].toString() << json_map["symbol"].toString() \
+            << json_map["price"].toString() << json_map["side"].toString() << json_map["type"].toString() << json_map["original_amount"].toString();
+        }
+        //----
+#endif
+        ifs.close();
+    }
+}
+/* TODO: This function will be implement in algothm trading NOT on a button */
+void Widget::on_replaceOrderButton_clicked()
+{
+    qDebug()<< "debug: on_replaceOrderButton_clicked...";
+
+    const char *keyFilePath = "key.md";
+    ifstream ifs(keyFilePath);
+    if (!ifs.is_open())
+    {
+        qDebug() << "Can't open file: " << keyFilePath << endl;
+      return;
+    }
+    else
+    {
+        string accessKey, secretKey;
+        getline(ifs, accessKey);
+        getline(ifs, secretKey);
+
+        qDebug()<< "Finish get key...";
+        BitfinexAPI bfxAPI(accessKey, secretKey);
+        string response;
+        int errCode;
+
+        //  errCode = bfxAPI.cancelOrders(response, ids);
+        //
+        //  errCode = bfxAPI.cancelAllOrders(response);
+
+        #if 0
+        int replaceOrder(string &result, const long long &order_id, const string &symbol,
+                         const double &amount, const double &price, const string &side,
+                         const string &type, const bool &is_hidden = 0,
+                         const bool &use_remaining = 0);
+        #endif
+//        errCode = bfxAPI.replaceOrder(response, 1321548521LL, "btcusd", 0.05, 1212, "sell",
+        //                                "exchange limit", 0, 0);
+        //errCode = bfxAPI.getOrderStatus(response, 12113548453LL);
+        //errCode = bfxAPI.getActiveOrders(response);
+
+        /////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////
+
+        cout << "Response: " << response << endl;
+        cout << "Error code: " << errCode << endl;
+
+        ////////////////
+#if 0
+        //Convert
+        QString json_string = QString::fromStdString(response);
+//        qDebug() << json_string;
+
+        QByteArray json_bytes = json_string.toLocal8Bit();
+
+        auto jsonResponse=QJsonDocument::fromJson(json_bytes);
+//        QJsonObject jsonObject = jsonResponse.object(); //https://stackoverflow.com/questions/19822211/qt-parsing-json-using-qjsondocument-qjsonobject-qjsonarray
+        QJsonArray jsonArray = jsonResponse.array(); //Returns the QJsonArray contained in the document.
+
+        foreach (const QJsonValue & value, jsonArray) {
+            QJsonObject json_obj = value.toObject();
+            QVariantMap json_map = json_obj.toVariantMap();
+            qDebug()<< json_map["id"].toString() << json_map["cid_date"].toString() << json_map["symbol"].toString() \
+            << json_map["price"].toString() << json_map["side"].toString() << json_map["type"].toString();
+        }
+#if 0
+        if(jsonObject.isNull()){
+            qDebug()<<"Failed to create JSON doc.";
+            exit(2);
+        }
+        if(!jsonObject.isObject()){
+            qDebug()<<"JSON is not an object.";
+//            exit(3);
+        }
+
+        QJsonObject json_obj=json_doc.object();
+
+        if(jsonObject.isEmpty()){
+            qDebug()<<"JSON object is empty.";
+//            exit(4);
+        }
+#endif
+        //----
+        //QVariantMap json_map = json_obj.toVariantMap();
+        //qDebug()<< json_map["id"].toDouble();
+//        qDebug()<< json_map["bid"].toFloat();
+//        qDebug()<< json_map["volume"].toDouble();
+//        qDebug()<< json_map["timestamp"].toFloat();
+#endif
+        ifs.close();
+#if 0
+        // function here
+        //marketBid->setValue(1);
+        //emit valueChanged(10);
+        //marketBid->setValue(20.f);
+        //setValue(10);
+        //connect(this, SIGNAL(valueChanged(double)), marketBid, SLOT(valueChanged(double)));
+        double value = json_map["mid"].toDouble();
+        cout << "value" << value << endl;
+        emit valueChanged(value);
+#endif
+    }
+}
