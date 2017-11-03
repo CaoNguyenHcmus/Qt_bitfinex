@@ -53,7 +53,9 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
         "zecusd",
         "xmrusd",
         "iotusd",
-        "eosusd"
+        "eosusd",
+        "bchusd",
+        "omgusd"
     };
 
     for(int i = 0; i < symbols.size(); i++){
@@ -74,7 +76,6 @@ void Widget::get_data()
 
     //okButton->setEnabled(lineEdit->hasAcceptableInput());
     qDebug()<< "debug: get_data...";
-
     const char *keyFilePath = "key.md";
     ifstream ifs(keyFilePath);
     if (!ifs.is_open())
@@ -273,7 +274,16 @@ void Widget::on_buyButton_clicked()
         input_price = priceEdit->text();
         qDebug()<< "debug: input_price: " << input_price;
     }
-
+#if 1
+    std::string order_types;
+    if (margincheckBox->isChecked()) {
+        order_types = "limit";
+        std::cout<< "WARNING: using margin..." << order_types << "\n";
+    } else {
+        order_types = "exchange limit";
+        std::cout<< "Using normal trading... "<< order_types <<"\n";
+    }
+#endif 
     const char *keyFilePath = "key.md";
     ifstream ifs(keyFilePath);
     if (!ifs.is_open())
@@ -314,7 +324,7 @@ void Widget::on_buyButton_clicked()
         #endif
         
         //qDebug()<< "amount: " << input_amount << "price: " << input_price;
-        errCode = bfxAPI.newOrder(response, ticker, input_amount.toFloat(), input_price.toFloat(), "buy", "exchange limit", 0, 1, 0, 0, 0);
+        errCode = bfxAPI.newOrder(response, ticker, input_amount.toFloat(), input_price.toFloat(), "buy", order_types, 0, 1, 0, 0, 0);
         //
         //  How to create vOrders object for newOrders() call
         //  BitfinexAPI::vOrders orders =
@@ -423,7 +433,16 @@ void Widget::on_sellButton_clicked()
         input_price = priceEdit->text();
         qDebug()<< "debug: input_price: " << input_price;
     }
-
+#if 1
+    std::string order_types;
+    if (margincheckBox->isChecked()) {
+        order_types = "limit";
+        std::cout<< "WARNING: using margin..." << order_types << "\n";
+    } else {
+        order_types = "exchange limit";
+        std::cout<< "Using normal trading... "<< order_types <<"\n";
+    }
+#endif 
     const char *keyFilePath = "key.md";
     ifstream ifs(keyFilePath);
     if (!ifs.is_open())
@@ -456,7 +475,7 @@ void Widget::on_sellButton_clicked()
         }
 #endif /*TODO: will make a function later */
         //qDebug()<< "amount: " << input_amount << "price: " << input_price;
-        errCode = bfxAPI.newOrder(response, ticker, input_amount.toFloat(), input_price.toFloat(), "sell", "exchange limit", 0, 1, 0, 0, 0);
+        errCode = bfxAPI.newOrder(response, ticker, input_amount.toFloat(), input_price.toFloat(), "sell", order_types, 0, 1, 0, 0, 0);
         //
         //  How to create vOrders object for newOrders() call
         //  BitfinexAPI::vOrders orders =

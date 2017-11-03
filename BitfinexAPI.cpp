@@ -68,7 +68,9 @@ accessKey(accessKey), secretKey(secretKey), curl(NULL)
         "rrtusd", "rrtbtc", "zecusd",
         "zecbtc", "xmrusd", "xmrbtc",
         "iotusd","iotbtc","ioteth",  //Add
-        "eosusd","eosbtc","eoseth"  //Add
+        "eosusd","eosbtc","eoseth",  //Add
+        "bchusd",
+        "omgusd"
     };
     currencies =
     {
@@ -455,7 +457,7 @@ newOrder(string &result, const string &symbol, const double &amount,
     params += ",\"use_all_available\":" + bool2string(use_all_available);
     params += ",\"ocoorder\":" + bool2string(ocoorder);
     params += ",\"buy_price_oco\":" + bool2string(buy_price_oco);
-    
+    cout <<"param orders: "<< params <<"\n"; 
     params += "}";
     return DoPOSTrequest(endPoint, params, result);
     
