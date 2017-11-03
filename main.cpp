@@ -4,8 +4,8 @@
 #include <fstream>
 #include "BitfinexAPI.hpp"
 #include "updaterdialog.h"
+#include "main.h"
 #include <QByteArray>
-
 #include <QDebug>
 
 #include <QJsonDocument>
@@ -18,6 +18,78 @@ using std::endl;
 using std::ifstream;
 using std::string;
 
+
+BaseValues* baseValues_;
+void BaseValues::Construct()
+{
+    /*
+    forceDotInSpinBoxes = true;
+    scriptsThatUseOrderBookCount = 0;
+    */
+    trafficSpeed = 0;
+    /*
+    trafficTotal = 0;
+    trafficTotalType = 0;
+    currentExchange_ = 0;
+    currentTheme = 0;
+    gzipEnabled = true;
+    appVerIsBeta = false;
+    jlScriptVersion = 1.0;
+    appVerStr = "1.4006";
+    appVerReal = appVerStr.toDouble();
+
+    if (appVerStr.size() > 4)
+    {
+        if (appVerStr.size() == 7)
+            appVerStr.remove(6, 1);
+
+        appVerStr.insert(4, ".");
+    }
+
+    appVerLastReal = appVerReal;
+*/
+    logThread = 0;
+/*
+    highResolutionDisplay = true;
+    timeFormat = QLocale().timeFormat(QLocale::LongFormat).replace(" ", "").replace("t", "");
+    dateTimeFormat = QLocale().dateFormat(QLocale::ShortFormat) + " " + timeFormat;
+    depthCountLimit = 100;
+    depthCountLimitStr = "100";
+    uiUpdateInterval = 100;
+    supportsUtfUI = true;
+
+#ifdef Q_WS_WIN
+
+    if (QSysInfo::windowsVersion() <= QSysInfo::WV_XP)
+        supportsUtfUI = false;
+
+#endif
+
+    upArrow = QByteArray::fromBase64("4oaR");
+    downArrow = QByteArray::fromBase64("4oaT");
+
+    if (baseValues.supportsUtfUI)
+    {
+        upArrowNoUtf8 = upArrow;
+        downArrowNoUtf8 = downArrow;
+    }
+    else
+    {
+        upArrowNoUtf8 = ">";
+        downArrowNoUtf8 = "<";
+    }
+*/
+    httpRequestInterval = 400; /* julyhttp.cpp:915:91: error: ‘struct BaseValues’ has no member named ‘httpRequestTimeout’*/
+    httpRequestTimeout = 5000; /* julyhttp.cpp:915:91: error: ‘struct BaseValues’ has no member named ‘httpRequestTimeout’*/
+/*
+    httpRetryCount = 5;
+    apiDownCount = 0;
+    groupPriceValue = 0.0;
+    defaultHeightForRow_ = 22;
+
+    selectSystemLanguage();
+*/
+}
 int main(int argc, char *argv[])
 {
 #if 1

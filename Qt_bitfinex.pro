@@ -3,8 +3,8 @@
 # Project created by QtCreator 2017-09-07T13:26:37
 #
 #-------------------------------------------------
-
-QT       += core gui
+# QT += network for QSslSocket (file julyhttp.h)
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,16 +18,31 @@ SOURCES += main.cpp\
     BitfinexAPI.cpp \
     example.cpp \
     menu/currencymenu.cpp \
-    menu/currencymenucell.cpp
+    menu/currencymenucell.cpp \
+    julyhttp.cpp \
+    exchange_bitfinex.cpp \
+    exchange.cpp \
+    logthread.cpp \
+    currencypairitem.cpp \
+    depthitem.cpp
 
 HEADERS  += widget.h \
     updaterdialog.h \
     BitfinexAPI.hpp \
     menu/currencymenu.h \
-    menu/currencymenucell.h
+    menu/currencymenucell.h \
+    julyhttp.h \
+    main.h \
+    exchange_bitfinex.h \
+    exchange.h \
+    logthread.h \
+    currencypairitem.h \
+    currencyinfo.h \
+    depthitem.h
 
 FORMS    += widget.ui \
     menu/currencymenu.ui \
     menu/currencymenucell.ui
 
-LIBS += -lcrypto++ -lcurl
+LIBS += -lcrypto++ -lcurl -lz
+# LIBS += -llibssl
