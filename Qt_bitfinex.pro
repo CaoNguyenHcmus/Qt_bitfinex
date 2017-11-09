@@ -3,6 +3,8 @@
 # Project created by QtCreator 2017-09-07T13:26:37
 #
 #-------------------------------------------------
+#to_string is not a member of std
+CONFIG	+= c++11
 # QT += network for QSslSocket (file julyhttp.h)
 QT       += core gui network
 
