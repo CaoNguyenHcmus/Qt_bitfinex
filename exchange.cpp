@@ -80,7 +80,7 @@ bool Exchange::isDepthEnabled()
     return depthEnabledFlag || baseValues.scriptsThatUseOrderBookCount;
 }
 */
-#if 0
+// dung de analyze du lieu nhan ve. Lay du lieu trong chuoi json
 QByteArray Exchange::getMidData(QString a, QString b, QByteArray* data)
 {
     QByteArray rez;
@@ -100,7 +100,7 @@ QByteArray Exchange::getMidData(QString a, QString b, QByteArray* data)
 
     return rez;
 }
-
+#if 0
 void Exchange::translateUnicodeStr(QString* str)
 {
     const QRegExp rx("(\\\\u[0-9a-fA-F]{4})");

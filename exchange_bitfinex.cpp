@@ -291,7 +291,7 @@ void Exchange_Bitfinex::sendToApi(int reqType, QByteArray method, bool auth, boo
         // connect(julyHttp, SIGNAL(setDataPending(bool)), baseValues_->mainWindow_, SLOT(setDataPending(bool)));
         // connect(julyHttp, SIGNAL(apiDown(bool)), baseValues_->mainWindow_, SLOT(setApiDown(bool)));
         // connect(julyHttp, SIGNAL(errorSignal(QString)), baseValues_->mainWindow_, SLOT(showErrorMessage(QString)));
-//        connect(julyHttp, SIGNAL(sslErrorSignal(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+        connect(julyHttp, SIGNAL(sslErrorSignal(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
         /* When a packet is received! from  dataReceived() we emit dataReceivedAuth to analyze result*/
         connect(julyHttp, SIGNAL(dataReceived(QByteArray, int)), this, SLOT(dataReceivedAuth(QByteArray, int)));
     }
@@ -405,7 +405,7 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
         return;
 
     bool success = (data.startsWith("{") || data.startsWith("[")) && !data.startsWith("{\"message\"");
-#if 0
+
     switch (reqType)
     {
         case 103: //ticker
@@ -415,14 +415,14 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
             if (data.startsWith("{\"mid\":"))
             {
                 QByteArray tickerSell = getMidData("bid\":\"", "\"", &data);
-
                 if (!tickerSell.isEmpty())
                 {
                     double newTickerSell = tickerSell.toDouble();
-
+                    qDebug() << "newTickerSell: " << newTickerSell;
+/*
                     if (newTickerSell != lastTickerSell)
                         IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Sell", newTickerSell);
-
+*/
                     lastTickerSell = newTickerSell;
                 }
 
@@ -431,37 +431,39 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerBuy.isEmpty())
                 {
                     double newTickerBuy = tickerBuy.toDouble();
-
+                    qDebug() << "newTickerBuy: " << newTickerBuy;
+                    /*
                     if (newTickerBuy != lastTickerBuy)
                         IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Buy", newTickerBuy);
 
                     lastTickerBuy = newTickerBuy;
+                    */
                 }
 
                 quint32 tickerNow = getMidData("timestamp\":\"", ".", &data).toUInt();
+                qDebug() << "tickerNow: " << tickerNow;
+                // if (tickerLastDate < tickerNow)
+                // {
+                //     QByteArray tickerLast = getMidData("last_price\":\"", "\"", &data);
+                //     double newTickerLast = tickerLast.toDouble();
 
-                if (tickerLastDate < tickerNow)
-                {
-                    QByteArray tickerLast = getMidData("last_price\":\"", "\"", &data);
-                    double newTickerLast = tickerLast.toDouble();
-
-                    if (newTickerLast > 0.0)
-                    {
-                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Last", newTickerLast);
-                        tickerLastDate = tickerNow;
-                    }
-                }
+                //     // if (newTickerLast > 0.0)
+                //     // {
+                //     //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Last", newTickerLast);
+                //     //     tickerLastDate = tickerNow;
+                //     // }
+                // }
 
                 QByteArray tickerHigh = getMidData("high\":\"", "\"", &data);
 
                 if (!tickerHigh.isEmpty())
                 {
                     double newTickerHigh = tickerHigh.toDouble();
+                    qDebug() << "newTickerHigh: " << newTickerHigh;
+                    // if (newTickerHigh != lastTickerHigh)
+                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "High", newTickerHigh);
 
-                    if (newTickerHigh != lastTickerHigh)
-                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "High", newTickerHigh);
-
-                    lastTickerHigh = newTickerHigh;
+                    // lastTickerHigh = newTickerHigh;
                 }
 
                 QByteArray tickerLow = getMidData("\"low\":\"", "\"", &data);
@@ -469,11 +471,11 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerLow.isEmpty())
                 {
                     double newTickerLow = tickerLow.toDouble();
+                    qDebug() << "newTickerLow: " << newTickerLow;
+                    // if (newTickerLow != lastTickerLow)
+                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Low", newTickerLow);
 
-                    if (newTickerLow != lastTickerLow)
-                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Low", newTickerLow);
-
-                    lastTickerLow = newTickerLow;
+                    // lastTickerLow = newTickerLow;
                 }
 
                 QByteArray tickerVolume = getMidData("\"volume\":\"", "\"", &data);
@@ -481,18 +483,18 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerVolume.isEmpty())
                 {
                     double newTickerVolume = tickerVolume.toDouble();
+                    qDebug() << "newTickerVolume: " << newTickerVolume;
+                    // if (newTickerVolume != lastTickerVolume)
+                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Volume", newTickerVolume);
 
-                    if (newTickerVolume != lastTickerVolume)
-                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Volume", newTickerVolume);
-
-                    lastTickerVolume = newTickerVolume;
+                    // lastTickerVolume = newTickerVolume;
                 }
             }
             else if (debugLevel)
                 logThread->writeLog("Invalid ticker fast data:" + data, 2);
 
             break;//ticker
-
+            #if 0
         case 109: //money/trades/fetch
             if (success && data.size() > 32)
             {
@@ -954,13 +956,13 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
 
                 lastFee = newFee;
             }
-
+            
             break;//fee
-
+        #endif    
         default:
             break;
     }
-#endif
+
 #if 0   /* (reqType >= 200 && reqType < 300) */
     if (reqType >= 200 && reqType < 300)
     {

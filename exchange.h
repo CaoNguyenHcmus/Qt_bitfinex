@@ -73,7 +73,9 @@ public:
     double lastTickerLast;
     double lastTickerHigh;
     double lastTickerLow;
+#endif
     double lastTickerSell;
+#if 0
     double lastTickerBuy;
     double lastTickerVolume;
 
@@ -112,9 +114,10 @@ public:
     virtual void clearVariables();
     void translateUnicodeStr(QString* str);
     void translateUnicodeOne(QByteArray* str);
+    #endif 
     QByteArray getMidData(QString a, QString b, QByteArray* data);
 //    void setupApi(QtBitcoinTrader*, bool tickerOnly = false);
-#endif 
+
     Exchange();
     ~Exchange();
 

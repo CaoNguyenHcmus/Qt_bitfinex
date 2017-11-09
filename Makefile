@@ -585,7 +585,8 @@ benchmark: first
 compiler_rcc_make_all: qrc_QtResource.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_QtResource.cpp
-qrc_QtResource.cpp: QtResource.qrc
+qrc_QtResource.cpp: QtResource.qrc \
+		Resources/CertBase.cer
 	/opt/Qt5.6.2/5.6/gcc_64/bin/rcc -name QtResource QtResource.qrc -o qrc_QtResource.cpp
 
 compiler_moc_header_make_all: moc_widget.cpp moc_updaterdialog.cpp moc_currencymenu.cpp moc_currencymenucell.cpp moc_julyhttp.cpp moc_exchange_bitfinex.cpp moc_exchange.cpp moc_logthread.cpp
@@ -696,57 +697,6 @@ moc_widget.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_widget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QToolButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtoolbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		widget.h
 	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore widget.h -o moc_widget.cpp
@@ -1563,11 +1513,7 @@ main.o: main.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_widget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1575,46 +1521,6 @@ main.o: main.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QToolButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtoolbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		BitfinexAPI.hpp \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QString \
 		updaterdialog.h \
@@ -1767,57 +1673,6 @@ widget.o: widget.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_widget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QToolButton \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtoolbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		BitfinexAPI.hpp \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QString \
@@ -1866,7 +1721,10 @@ widget.o: widget.cpp widget.h \
 		exchange_bitfinex.h \
 		menu/currencymenu.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QMenu \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmenu.h
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.o widget.cpp
 
 updaterdialog.o: updaterdialog.cpp updaterdialog.h \
@@ -2230,50 +2088,7 @@ currencymenu.o: menu/currencymenu.cpp menu/currencymenu.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
-		ui_currencymenu.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QScrollArea \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QVBoxLayout \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget
+		ui_currencymenu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o currencymenu.o menu/currencymenu.cpp
 
 currencymenucell.o: menu/currencymenucell.cpp menu/currencymenu.h \
@@ -2387,43 +2202,7 @@ currencymenucell.o: menu/currencymenucell.cpp menu/currencymenu.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
 		menu/currencymenucell.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget \
-		ui_currencymenucell.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QVBoxLayout \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qgridlayout.h
+		ui_currencymenucell.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o currencymenucell.o menu/currencymenucell.cpp
 
 julyhttp.o: julyhttp.cpp julyhttp.h \
@@ -2526,7 +2305,8 @@ julyhttp.o: julyhttp.cpp julyhttp.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbasictimer.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QWaitCondition \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qwaitcondition.h
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qwaitcondition.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o julyhttp.o julyhttp.cpp
 
 exchange_bitfinex.o: exchange_bitfinex.cpp exchange_bitfinex.h \
@@ -2629,7 +2409,8 @@ exchange_bitfinex.o: exchange_bitfinex.cpp exchange_bitfinex.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork/qnetworkcookie.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exchange_bitfinex.o exchange_bitfinex.cpp
 
 exchange.o: exchange.cpp exchange.h \
@@ -2732,7 +2513,8 @@ exchange.o: exchange.cpp exchange.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDateTime
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exchange.o exchange.cpp
 
 logthread.o: logthread.cpp logthread.h \
