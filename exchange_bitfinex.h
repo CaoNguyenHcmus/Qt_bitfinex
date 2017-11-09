@@ -34,26 +34,29 @@
 
 #include "exchange.h"
 
-class Exchange_Bitfinex// : public Exchange
+class Exchange_Bitfinex : public Exchange
 {
-//    Q_OBJECT
+   Q_OBJECT
 
 public:
-//    Exchange_Bitfinex(QByteArray pRestSign, QByteArray pRestKey);
+//   Exchange_Bitfinex(QByteArray pRestSign, QByteArray pRestKey);
+    Exchange_Bitfinex();
 //    ~Exchange_Bitfinex();
 
 private:
 //    QByteArray historyLastTimestamp;
 /*
     bool isFirstAccInfo;
+*/
     bool isReplayPending(int);
+/*
     bool lastInfoReceived;
 
     int apiDownCounter;
     int secondPart;
-
+*/
     JulyHttp* julyHttp;
-
+/*
     QByteArray lastTradesDateCache;
 
     quint64 lastTradesDate;
@@ -75,11 +78,11 @@ private:
 //    void clearVariables();
 //    void depthSubmitOrder(QString, QMap<double, double>*, double, double, bool);
 //    void depthUpdateOrder(QString, double, double, bool);
-//    void sendToApi(int reqType, QByteArray method, bool auth = false, bool sendNow = true, QByteArray commands = 0);
+    void sendToApi(int reqType, QByteArray method, bool auth = false, bool sendNow = true, QByteArray commands = 0);
 private slots:
-//    void secondSlot();
+    void secondSlot();
 public slots:
-//    void dataReceivedAuth(QByteArray, int);
+    void dataReceivedAuth(QByteArray, int);
 //    void reloadDepth();
 //    void clearValues();
 //    void getHistory(bool);

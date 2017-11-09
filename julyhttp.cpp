@@ -35,7 +35,7 @@
 #include <QFile>
 #include <QMutex>
 #include <QWaitCondition>
-
+#include <iostream>
 #ifdef Q_OS_WIN
     #include <WinSock2.h>
 #else
@@ -46,12 +46,12 @@
 #endif
 
 #include <zlib.h>
-
+#include <QDebug> /* for debug */
 
 JulyHttp::JulyHttp(const QString& hostN, const QByteArray& restLine, QObject* parent, const bool& secure,
                    const bool& keepAlive, const QByteArray& contentType)
-    : QSslSocket(parent),
-      ignoreError(false)
+    : QSslSocket(parent)//,
+//      ignoreError(false)
 {
     destroyClass = false;
     noReconnect = false;
@@ -70,9 +70,9 @@ JulyHttp::JulyHttp(const QString& hostN, const QByteArray& restLine, QObject* pa
     isDisabled = false;
     outGoingPacketsCount = 0;
     contentGzipped = false;
-
-    setupSocket();
-
+    std::cout << "Function trace: " << __func__ << "()\t"<< "before setupSocket()"<<"\n";
+    setupSocket(); /* Loading certificate */
+    std::cout << "Function trace: " << __func__ << "()\t"<< "after setupSocket()"<<"\n";
     requestTimeOut.restart();
     hostName = hostN;
     httpHeader.append(" HTTP/1.1\r\n");
@@ -133,20 +133,22 @@ void JulyHttp::setupSocket()
     static QMutex mutex;
     mutex.lock();
     static QList<QSslCertificate> certs;
-
+    std::cout << "Function trace:" << __func__ << "\n";
     if (certs.count() == 0)
     {
+        std::cout << "Function trace: " << __func__ << "()\t"<< "readCerts()"<<"\n";
         QFile readCerts(":/Resources/CertBase.cer");
 
         if (readCerts.open(QIODevice::ReadOnly))
         {
+            std::cout << "Function trace: " << __func__ << "()\t"<< "readCerts.open"<<"\n";
             QByteArray certData = readCerts.readAll() + "{SPLIT}";
             readCerts.close();
 
             do
             {
                 int nextCert = certData.indexOf("{SPLIT}");
-
+                std::cout << "Function trace: " << __func__ << "()\t"<< "nextCert: "<< nextCert <<"\n";
                 if (nextCert > -1)
                 {
                     QByteArray currentCert = certData.left(nextCert);
@@ -199,22 +201,37 @@ void JulyHttp::abortSocket()
 
 void JulyHttp::reconnectSocket(bool mastAbort)
 {
-#if 0
-    if (destroyClass)
-        return;//{qDebug("delete reconnectSocket1"); delete this; qDebug("delete reconnectSocket2");}
+#if 1
+    if (destroyClass){
+        {qDebug("delete reconnectSocket1"); delete this; qDebug("delete reconnectSocket2");}
+        return;
+    }
 
     if (isDisabled)
+    {
+        qDebug("isDisabled is true");
         return;
+    }
+        
 
     if (mastAbort)
+    {
+        qDebug("mastAbort is true");
         abortSocket();
+    }
 
     if (state() == QAbstractSocket::UnconnectedState)
     {
         if (secureConnection)
+        {
+            qDebug("state() == QAbstractSocket::UnconnectedState and connectToHostEncrypted()...");
             connectToHostEncrypted(hostName, forcedPort ? forcedPort : 443, QIODevice::ReadWrite);
+        }
         else
+        {
+            qDebug("state() == QAbstractSocket::UnconnectedState and connectToHost()...");
             connectToHost(hostName, forcedPort ? forcedPort : 80, QIODevice::ReadWrite);
+        }
 #if 1 /* julyhttp.cpp:218:87: error: ‘struct BaseValues’ has no member named ‘httpRequestTimeout’ */
         waitForConnected(((noReconnect && noReconnectCount++ > 5) ? 1000 : baseValues.httpRequestTimeout));
 
@@ -897,18 +914,24 @@ bool JulyHttp::isSocketConnected()
 {
     return state() == QAbstractSocket::ConnectedState;
 }
-
+/*Note: this function in constructor of julyhttp and always running to check request in requestList */
 void JulyHttp::sendPendingData()
 {
     if (isDisabled)
         return;
 
     if (requestList.count() == 0)
-        return;
+    {
+        qDebug() << "Function trace:" << __func__ << "requestList don't have any request -> return";
+        return;   
+    }
 
-    if (!isSocketConnected())
+    qDebug() << "Function trace:" << __func__ << "having request....";
+    if (!isSocketConnected()){
+        qDebug() << "Function trace:" << __func__ << "isSocketConnected FAIL";
         reconnectSocket(false);
-
+    }
+    qDebug() << "Function trace:" << __func__ << "isSocketConnected OK!!!";    
     if (state() != QAbstractSocket::UnconnectedState)
     {
         if (state() == QAbstractSocket::ConnectingState || state() == QAbstractSocket::HostLookupState)
@@ -992,7 +1015,9 @@ void JulyHttp::sendPendingData()
         }
     }
     else if (debugLevel)
+    {
         logThread->writeLog("PendingRequest pointer not exist", 2);
+    }
 }
 
 void JulyHttp::addSpeedSize(qint64 size)

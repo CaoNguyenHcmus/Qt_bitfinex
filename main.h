@@ -53,8 +53,9 @@
 
 #define julyTr baseValues_->julyTranslator_.translateString
 #define julyTranslator baseValues_->julyTranslator_
+#endif
 #define currentExchange baseValues_->currentExchange_
-
+#if 0
 #define defaultHeightForRow baseValues_->defaultHeightForRow_
 #define upArrowStr baseValues_->upArrow
 #define downArrowStr baseValues_->downArrow
@@ -70,7 +71,7 @@
 #include "apptheme.h"
 #endif
 #include "currencypairitem.h" /* exchange.h:63:5: error: ‘CurrencyPairItem’ does not name a type */
-//class Exchange;
+class Exchange;
 
 struct BaseValues
 {
@@ -122,8 +123,9 @@ struct BaseValues
     int httpRequestInterval; /* exchange.cpp:147:39: error: ‘struct BaseValues’ has no member named ‘httpRequestInterval’*/
     
     int httpRequestTimeout; /* julyhttp.cpp:218:87: error: ‘struct BaseValues’ has no member named ‘httpRequestTimeout’ */
+
+    Exchange* currentExchange_;
 /*
-    /*Exchange* currentExchange_;
     QString scriptFolder;
     QString themeFolder;
     double jlScriptVersion;
@@ -140,9 +142,9 @@ struct BaseValues
     QByteArray appVerStr;   //julyhttp.cpp:83:74
     LogThread* logThread_;      //‘logThread’ was not declared in this scope
 
-    QByteArray restKey;
+    QByteArray restKey; // authen in widget.cpp
+    QByteArray restSign; // authen in widget.cpp
     /*
-    QByteArray restSign;
     QByteArray randomPassword;
     QtBitcoinTrader* mainWindow_;
     QString logFileName;

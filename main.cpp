@@ -5,6 +5,7 @@
 #include "BitfinexAPI.hpp"
 #include "updaterdialog.h"
 #include "main.h"
+#include "exchange.h"
 #include <QByteArray>
 #include <QDebug>
 
@@ -30,7 +31,9 @@ void BaseValues::Construct()
     /*
     trafficTotal = 0;
     trafficTotalType = 0;
+    */
     currentExchange_ = 0;
+    /*
     currentTheme = 0;
     gzipEnabled = true;
     appVerIsBeta = false;
@@ -92,14 +95,16 @@ void BaseValues::Construct()
 }
 int main(int argc, char *argv[])
 {
-#if 1
+#if 1 /* integrating bitfinex exchange */
+    baseValues_ = new BaseValues;
+    baseValues.Construct();
+#endif
     QApplication a(argc, argv);
 
     Widget *dialog = new Widget;
     dialog->show();
 
     return a.exec();
-#endif
 #if 0
     const char *keyFilePath = "key.md";
     ifstream ifs(keyFilePath);

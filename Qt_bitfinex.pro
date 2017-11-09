@@ -46,3 +46,6 @@ FORMS    += widget.ui \
 
 LIBS += -lcrypto++ -lcurl -lz
 # LIBS += -llibssl
+
+RESOURCES += \
+    QtResource.qrc

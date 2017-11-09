@@ -21,6 +21,9 @@ using std::ifstream;
 using std::string;
 #endif
 
+#include "main.h"
+#include "exchange.h"
+#include "exchange_bitfinex.h"
 #include "menu/currencymenu.h"
 
 //class CurrencyMenu;
@@ -62,6 +65,13 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 //        qDebug()<< "DEBUG: i= " << i << "value :"<< symbols[i] <<"\n" ;
         currencyMenuCombo->addItem(symbols[i]);
     }
+#if 1 /* Dev WebSocket from Qt bitcoin trader */
+   baseValues.restSign;    /* = NULL: Segmentation fault (core dumped)*/
+   baseValues.restKey;    /* = NULL: Segmentation fault (core dumped)*/
+//    currentExchange = new Exchange_Bitfinex(baseValues.restSign, baseValues.restKey);
+    currentExchange = new Exchange_Bitfinex();
+    currentExchange->secondSlot();
+#endif
 }
 
 Widget::~Widget()

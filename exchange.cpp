@@ -36,10 +36,12 @@
 #include <QFile>
 #include "currencypairitem.h"
 //#include "iniengine.h"
+#include <QDebug>
 
 Exchange::Exchange()
     : QThread()
 {
+    #if 0
     multiCurrencyTradeSupport = false;
     exchangeDisplayOnlyCurrentPairOpenOrders = false;
     orderBookItemIsDedicatedOrder = false;
@@ -60,15 +62,17 @@ Exchange::Exchange()
     checkDuplicatedOID = false;
     isLastTradesTypeSupported = true;
     forceDepthLoad = false;
-
-    clearVariables();
-    moveToThread(this);
+#endif
+//    clearVariables();
+//    moveToThread(this);
 }
 
 Exchange::~Exchange()
 {
+    /*
     if (debugLevel)
         logThread->writeLogB(baseValues.exchangeName + " API Thread Deleted", 2);
+    */    
 }
 /*
 bool Exchange::isDepthEnabled()
@@ -76,6 +80,7 @@ bool Exchange::isDepthEnabled()
     return depthEnabledFlag || baseValues.scriptsThatUseOrderBookCount;
 }
 */
+#if 0
 QByteArray Exchange::getMidData(QString a, QString b, QByteArray* data)
 {
     QByteArray rez;
@@ -140,17 +145,19 @@ void Exchange::run()
     secondSlot();
     exec();
 }
-
+#endif
 void Exchange::secondSlot()
 {
+    /*
     if (secondTimer)
         secondTimer->start(baseValues.httpRequestInterval);
+    */
 }
 
 void Exchange::dataReceivedAuth(QByteArray, int)
 {
 }
-
+#if 0
 void Exchange::reloadDepth()
 {
     forceDepthLoad = true;
@@ -230,12 +237,12 @@ void Exchange::setApiKeySecret(QByteArray key, QByteArray secret)
     for (int n = secret.size() - 1; n >= 0; n--)
         apiSignChars << new char(secret[n]);
 }
-
+#endif
 QByteArray& Exchange::getApiKey()
 {
     return privateKey;
 }
-
+#if 0
 QByteArray Exchange::getApiSign()
 {
     QByteArray result;
@@ -266,7 +273,7 @@ void Exchange::sell(QString, double, double)
 void Exchange::cancelOrder(QString, QByteArray)
 {
 }
-
+#endif
 void Exchange::sslErrors(const QList<QSslError>& errors)
 {
     QStringList errorList;
@@ -276,6 +283,6 @@ void Exchange::sslErrors(const QList<QSslError>& errors)
 
     if (debugLevel)
         logThread->writeLog(errorList.join(" ").toLatin1(), 2);
-
-    emit showErrorMessage("SSL Error: " + errorList.join(" "));
+    qDebug() << "sslErrors";
+//    emit showErrorMessage("SSL Error: " + errorList.join(" "));
 }

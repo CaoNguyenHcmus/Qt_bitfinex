@@ -53,6 +53,7 @@ class Exchange : public QThread
     Q_OBJECT
 
 public:
+#if 0
     bool exchangeDisplayOnlyCurrentPairOpenOrders;
     bool clearHistoryOnCurrencyChanged;
     bool exchangeTickerSupportsHiLowPrices;
@@ -103,8 +104,9 @@ public:
     QTimer* secondTimer;
 
     void setApiKeySecret(QByteArray key, QByteArray secret);
-
+#endif
     QByteArray& getApiKey();
+#if 0
     QByteArray getApiSign();
 
     virtual void clearVariables();
@@ -112,12 +114,13 @@ public:
     void translateUnicodeOne(QByteArray* str);
     QByteArray getMidData(QString a, QString b, QByteArray* data);
 //    void setupApi(QtBitcoinTrader*, bool tickerOnly = false);
+#endif 
     Exchange();
     ~Exchange();
 
 private:
     QByteArray privateKey;
-
+#if 0
     QList<char*> apiKeyChars;
     QList<char*> apiSignChars;
 
@@ -148,17 +151,21 @@ signals:
     void loginChanged(QString);
     void apiDownChanged(bool);
     void softLagChanged(int);
+#endif
 private slots:
     void sslErrors(const QList<QSslError>&);
+
 public slots:
-    virtual void secondSlot();
-    virtual void dataReceivedAuth(QByteArray, int);
+    virtual void secondSlot(); //send data
+    virtual void dataReceivedAuth(QByteArray, int); //receive data
+    #if 0
     virtual void reloadDepth();
     virtual void clearValues();
     virtual void getHistory(bool);
     virtual void buy(QString, double, double);
     virtual void sell(QString, double, double);
     virtual void cancelOrder(QString, QByteArray);
+#endif
 };
 
 #endif // EXCHANGE_H

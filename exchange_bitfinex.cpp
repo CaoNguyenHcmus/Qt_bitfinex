@@ -30,54 +30,55 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "exchange_bitfinex.h"
-#if 0
-Exchange_Bitfinex::Exchange_Bitfinex(QByteArray pRestSign, QByteArray pRestKey)
-    : Exchange()
+#include <QDebug>
+#include <iostream> /* for debug std::cout */
+//Exchange_Bitfinex::Exchange_Bitfinex(QByteArray pRestSign, QByteArray pRestKey)
+Exchange_Bitfinex::Exchange_Bitfinex() : Exchange()
 {
-    orderBookItemIsDedicatedOrder = true;
-    clearHistoryOnCurrencyChanged = true;
-    isLastTradesTypeSupported = false;
-    calculatingFeeMode = 1;
-    historyLastTimestamp = "0";
-    lastTradesDate = 0;
-    tickerLastDate = 0;
-    isFirstAccInfo = true;
-    lastInfoReceived = false;
-    apiDownCounter = 0;
-    secondPart = 0;
-    baseValues.exchangeName = "Bitfinex";
+    // orderBookItemIsDedicatedOrder = true;
+    // clearHistoryOnCurrencyChanged = true;
+    // isLastTradesTypeSupported = false;
+    // calculatingFeeMode = 1;
+    // historyLastTimestamp = "0";
+    // lastTradesDate = 0;
+    // tickerLastDate = 0;
+    // isFirstAccInfo = true;
+    // lastInfoReceived = false;
+    // apiDownCounter = 0;
+    // secondPart = 0;
+    // baseValues.exchangeName = "Bitfinex";
 
-    setApiKeySecret(pRestKey, pRestSign);
+    // setApiKeySecret(pRestKey, pRestSign);
 
-    depthAsks = 0;
-    depthBids = 0;
-    forceDepthLoad = false;
+    // depthAsks = 0;
+    // depthBids = 0;
+    // forceDepthLoad = false;
     julyHttp = 0;
-    tickerOnly = false;
+    // tickerOnly = false;
 
-    currencyMapFile = "Bitfinex";
+    // currencyMapFile = "Bitfinex";
     baseValues.currentPair.name = "BTC/USD";
-    baseValues.currentPair.setSymbol("BTCUSD");
+    //baseValues.currentPair.setSymbol("BTCUSD");
     baseValues.currentPair.currRequestPair = "btcusd";
     baseValues.currentPair.priceDecimals = 5;
-    minimumRequestIntervalAllowed = 500;
+    // minimumRequestIntervalAllowed = 500;
     baseValues.currentPair.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
     baseValues.currentPair.tradeVolumeMin = 0.01;
     baseValues.currentPair.tradePriceMin = 0.1;
-    defaultCurrencyParams.currADecimals = 8;
-    defaultCurrencyParams.currBDecimals = 5;
-    defaultCurrencyParams.currABalanceDecimals = 8;
-    defaultCurrencyParams.currBBalanceDecimals = 5;
-    defaultCurrencyParams.priceDecimals = 5;
-    defaultCurrencyParams.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
+    // defaultCurrencyParams.currADecimals = 8;
+    // defaultCurrencyParams.currBDecimals = 5;
+    // defaultCurrencyParams.currABalanceDecimals = 8;
+    // defaultCurrencyParams.currBBalanceDecimals = 5;
+    // defaultCurrencyParams.priceDecimals = 5;
+    // defaultCurrencyParams.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
 
-    supportsLoginIndicator = false;
-    supportsAccountVolume = false;
+    // supportsLoginIndicator = false;
+    // supportsAccountVolume = false;
 
-    authRequestTime.restart();
-    privateNonce = (QDateTime::currentDateTime().toTime_t() - 1371854884) * 10;
+    // authRequestTime.restart();
+    // privateNonce = (QDateTime::currentDateTime().toTime_t() - 1371854884) * 10;
 }
-
+#if 0
 Exchange_Bitfinex::~Exchange_Bitfinex()
 {
 }
@@ -114,19 +115,20 @@ void Exchange_Bitfinex::clearValues()
     if (julyHttp)
         julyHttp->clearPendingData();
 }
-
+#endif
 void Exchange_Bitfinex::secondSlot()
 {
     static int sendCounter = 0;
-
     switch (sendCounter)
     {
         case 0:
             if (!isReplayPending(103))
+            {
+                std::cout << "Function debug: "<< __func__ << "()\n";
                 sendToApi(103, "pubticker/" + baseValues.currentPair.currRequestPair, false, true);
-
+            }
             break;
-
+#if 0
         case 1:
             if (!isReplayPending(202))
                 sendToApi(202, "balances", true, true);
@@ -170,7 +172,7 @@ void Exchange_Bitfinex::secondSlot()
             }
 
             break;
-
+#endif
         default:
             break;
     }
@@ -188,7 +190,7 @@ bool Exchange_Bitfinex::isReplayPending(int reqType)
 
     return julyHttp->isReqTypePending(reqType);
 }
-
+#if 0
 void Exchange_Bitfinex::getHistory(bool force)
 {
     if (tickerOnly)
@@ -272,20 +274,28 @@ void Exchange_Bitfinex::cancelOrder(QString, QByteArray order)
 
     sendToApi(305, "order/cancel", true, true, ", \"order_id\": " + order);
 }
-
+#endif
 void Exchange_Bitfinex::sendToApi(int reqType, QByteArray method, bool auth, bool sendNow, QByteArray commands)
 {
     if (julyHttp == 0)
     {
-        julyHttp = new JulyHttp("api.bitfinex.com", "X-BFX-APIKEY: " + getApiKey() + "\r\n", this);
-        connect(julyHttp, SIGNAL(anyDataReceived()), baseValues_->mainWindow_, SLOT(anyDataReceived()));
-        connect(julyHttp, SIGNAL(setDataPending(bool)), baseValues_->mainWindow_, SLOT(setDataPending(bool)));
-        connect(julyHttp, SIGNAL(apiDown(bool)), baseValues_->mainWindow_, SLOT(setApiDown(bool)));
-        connect(julyHttp, SIGNAL(errorSignal(QString)), baseValues_->mainWindow_, SLOT(showErrorMessage(QString)));
-        connect(julyHttp, SIGNAL(sslErrorSignal(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+        /* TODO: private key will fill here getApiKey() */
+        //JulyHttp(const QString& hostN, const QByteArray& restLine, QObject* parent, const bool& secure, const bool& keepAlive, const QByteArray& contentType)
+        //julyHttp = new JulyHttp("api.bitfinex.com", "X-BFX-APIKEY: " + getApiKey() + "\r\n", this);
+        QByteArray privateKey_debug = "2JdLErET9Vn4ZHK2ivxkgethosDd2Wxzgk3HpIZuqXe";
+        std::cout << "Function trace: " << __func__ << "()\t"<< "before init JulyHttp"<<"\n";
+        julyHttp = new JulyHttp("api.bitfinex.com", "X-BFX-APIKEY: " + privateKey_debug + "\r\n", this);
+        julyHttp->ignoreError = true;
+        std::cout << "Function trace: " << __func__ << "()\t"<< "after init JulyHttp"<<"\n";
+        // connect(julyHttp, SIGNAL(anyDataReceived()), baseValues_->mainWindow_, SLOT(anyDataReceived()));
+        // connect(julyHttp, SIGNAL(setDataPending(bool)), baseValues_->mainWindow_, SLOT(setDataPending(bool)));
+        // connect(julyHttp, SIGNAL(apiDown(bool)), baseValues_->mainWindow_, SLOT(setApiDown(bool)));
+        // connect(julyHttp, SIGNAL(errorSignal(QString)), baseValues_->mainWindow_, SLOT(showErrorMessage(QString)));
+//        connect(julyHttp, SIGNAL(sslErrorSignal(const QList<QSslError>&)), this, SLOT(sslErrors(const QList<QSslError>&)));
+        /* When a packet is received! from  dataReceived() we emit dataReceivedAuth to analyze result*/
         connect(julyHttp, SIGNAL(dataReceived(QByteArray, int)), this, SLOT(dataReceivedAuth(QByteArray, int)));
     }
-
+/*
     if (auth)
     {
         QByteArray postData = "{\"request\": \"/v1/" + method + "\", \"nonce\": \"" + QByteArray::number(++privateNonce) + "\"";
@@ -302,14 +312,23 @@ void Exchange_Bitfinex::sendToApi(int reqType, QByteArray method, bool auth, boo
                                   "X-BFX-PAYLOAD: " + payload + "\r\nX-BFX-SIGNATURE: " + forHash + "\r\n");
     }
     else
+*/
+#if 1 /* TODO: dev-late */
     {
         if (sendNow)
+        {
             julyHttp->sendData(reqType, "GET /v1/" + method);
+            qDebug() << __func__ << "sendNow is true" << "GET /v1/" << method;
+        }
         else
+        {
             julyHttp->prepareData(reqType, "GET /v1/" + method);
+            qDebug() << __func__ << "sendNow is fail" << "GET /v1/" << method;
+        }
     }
+#endif
 }
-
+#if 0
 void Exchange_Bitfinex::depthUpdateOrder(QString symbol, double price, double amount, bool isAsk)
 {
     if (symbol != baseValues.currentPair.symbol)
@@ -376,17 +395,17 @@ void Exchange_Bitfinex::reloadDepth()
     lastDepthData.clear();
     Exchange::reloadDepth();
 }
-
+#endif
 void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
 {
     if (debugLevel)
         logThread->writeLog("RCV: " + data);
-
+    qDebug() << "RCV: " + data;
     if (data.size() && data.at(0) == QLatin1Char('<'))
         return;
 
     bool success = (data.startsWith("{") || data.startsWith("[")) && !data.startsWith("{\"message\"");
-
+#if 0
     switch (reqType)
     {
         case 103: //ticker
@@ -941,7 +960,8 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
         default:
             break;
     }
-
+#endif
+#if 0   /* (reqType >= 200 && reqType < 300) */
     if (reqType >= 200 && reqType < 300)
     {
         static int authErrorCount = 0;
@@ -969,9 +989,9 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
         else
             authErrorCount = 0;
     }
-
+#endif  /* (reqType >= 200 && reqType < 300) */
     static int errorCount = 0;
-
+#if 0 /* errorCount */
     if (!success)
     {
         errorCount++;
@@ -1000,5 +1020,5 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
     }
     else
         errorCount = 0;
+#endif  /* errorCount */
 }
-#endif

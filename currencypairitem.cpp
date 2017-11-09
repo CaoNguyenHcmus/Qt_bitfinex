@@ -52,7 +52,7 @@ CurrencyPairItem::CurrencyPairItem()
     //currBSign="USD";
 
     //currSymbol="BTCUSD";
-    //currRequestPair="BTCUSD";
+    currRequestPair="BTCUSD";
 }
 
 void CurrencyPairItem::setSymbol(QByteArray symb)
