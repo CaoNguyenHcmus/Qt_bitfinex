@@ -1,5 +1,5 @@
 import json
-
+#must have websocket folder
 from websocket import create_connection
 #ws = create_connection("wss://api2.bitfinex.com:3000/ws")
 ws = create_connection("wss://api.bitfinex.com/ws/2")
