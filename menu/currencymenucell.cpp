@@ -29,6 +29,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QDebug>
 #include "currencymenu.h"
 #include "currencymenucell.h"
 #include "ui_currencymenucell.h"
@@ -44,6 +45,7 @@ CurrencyMenuCell::CurrencyMenuCell(const QString& currency,
 {
     ui->setupUi(this);
     ui->currencyLabel->setText(currency);
+    qDebug() << currency;
     setStyleSheet(currencyStyle);
 }
 

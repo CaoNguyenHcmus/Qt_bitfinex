@@ -3,6 +3,8 @@
 #if 1   //for bitfinex API
 #include <iostream>
 #include <fstream>
+#include <time.h>
+#include <errno.h>
 #include "BitfinexAPI.hpp"
 #include <QByteArray>
 
@@ -26,8 +28,6 @@ using std::string;
 #include "exchange_bitfinex.h"
 #include "menu/currencymenu.h"
 
-//class CurrencyMenu;
-
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
@@ -42,8 +42,15 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 //    connect(this->ui->exitButton, SIGNAL(clicked()), this, SLOT(setValue())); //Click button-> emit
 //    connect(this, SIGNAL(valueChanged(double)), this->ui->marketBid, SLOT(setValue(double)));
     connect(this, SIGNAL(valueChanged(double)), marketBid, SLOT(setValue(double)));
-#if 0
-    currencyMenu = new CurrencyMenu(ui->currencyMenuTool);
+#if 1
+    currencyMenu = new CurrencyMenu(currencyMenuTool);
+    QStringList currencyItems;
+    currencyItems << "BTC/USD [exchange]";
+    currencyMenu->setPairs(currencyItems);
+
+    /**/
+    int indexCurrency = 0;
+    //currencyMenu->setCurrentIndex(indexCurrency);
     //connect(currencyMenu, &CurrencyMenu::currencyMenuChanged, this, &QtBitcoinTrader::currencyMenuChanged);
 #endif
 

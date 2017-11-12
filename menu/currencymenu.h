@@ -17,11 +17,26 @@ class CurrencyMenu : public QMenu
 public:
     explicit CurrencyMenu(QToolButton*);
     ~CurrencyMenu();
+    void setPairs(const QStringList&);
+    //int count();
+    //int getCurrentIndex();
+    void setCurrentIndex(const int);
+    //void currencySelect(const int);
 signals:
+    void currencyMenuChanged(int);
 
 private slots:
+    void on_filterLine_textChanged(QString);
 
 private:
     Ui::CurrencyMenu* ui;
+    QToolButton* parentButton;
+    QStringList currencyPairs;
+    int currentIndex;
+    bool setCurrencyVisible;
+    void displayPairs();
+    // void showEvent(QShowEvent*);
+    void currencyResize();
+    //void mouseReleaseEvent(QMouseEvent*);
 };
 #endif // CURRENCYMENU_H
