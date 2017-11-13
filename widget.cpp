@@ -50,7 +50,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
     /**/
     int indexCurrency = 0;
-    //currencyMenu->setCurrentIndex(indexCurrency);
+    //when setCurrenInex is call > currencyMenuChanged > and connect to main window
+    //Is also call when 1 cell cointain coin is clicked()
+    currencyMenu->setCurrentIndex(indexCurrency); 
+    //ket noi giua
     //connect(currencyMenu, &CurrencyMenu::currencyMenuChanged, this, &QtBitcoinTrader::currencyMenuChanged);
 #endif
 

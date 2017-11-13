@@ -53,9 +53,10 @@ CurrencyMenuCell::~CurrencyMenuCell()
 {
     delete ui;
 }
-/*
+
 void CurrencyMenuCell::mousePressEvent(QMouseEvent*)
 {
+    qDebug() << "DEBUG TRACE: Func " << __func__ << "()\t index: " <<index << "\t Connecting to currencySelect .... and emit currencyMenuChanged(currentIndex)";
     parentMenu->currencySelect(index);
 }
-*/
+

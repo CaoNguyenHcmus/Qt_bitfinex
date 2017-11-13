@@ -121,7 +121,7 @@
   <widget class="QLineEdit" name="amountEdit">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>150</x>
      <y>190</y>
      <width>121</width>
      <height>27</height>
@@ -143,7 +143,7 @@
   <widget class="QLineEdit" name="priceEdit">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>30</x>
      <y>190</y>
      <width>113</width>
      <height>27</height>

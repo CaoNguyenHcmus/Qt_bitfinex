@@ -21,7 +21,7 @@ public:
     //int count();
     //int getCurrentIndex();
     void setCurrentIndex(const int);
-    //void currencySelect(const int);
+    void currencySelect(const int); /* This func support currencymenu cell get index via event mousePressEvent */
 signals:
     void currencyMenuChanged(int);
 
@@ -35,8 +35,8 @@ private:
     int currentIndex;
     bool setCurrencyVisible;
     void displayPairs();
-    // void showEvent(QShowEvent*);
+    void showEvent(QShowEvent*); /* This event handler can be reimplemented in a subclass to receive widget show events which are passed in the event parameter. */
     void currencyResize();
-    //void mouseReleaseEvent(QMouseEvent*);
+//    void mouseReleaseEvent(QMouseEvent*); /* This event handler, for event event, can be reimplemented in a subclass to receive mouse release events for the widget. */
 };
 #endif // CURRENCYMENU_H

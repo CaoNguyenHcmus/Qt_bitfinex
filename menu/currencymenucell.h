@@ -53,7 +53,7 @@ private:
     Ui::CurrencyMenuCell* ui;
     int index;
     CurrencyMenu* parentMenu;
-//    void mousePressEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent*); /* Event khi nguoi dung nhan vao cell coin */
 };
 
 #endif // CURRENCYMENUCELL_H

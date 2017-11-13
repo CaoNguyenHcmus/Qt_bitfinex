@@ -19,11 +19,10 @@ class Widget : public QWidget, public Ui::Widget //multiple inherence
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-
-//    QToolButton *currencyMenuTool;
+    
     CurrencyMenu* currencyMenu;
     
-
+    
 public slots:
     void get_data();
     void setValue();
