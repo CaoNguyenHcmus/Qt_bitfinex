@@ -179,7 +179,7 @@ void Exchange_Bitfinex::secondSlot()
 
     if (sendCounter++ >= 5)
         sendCounter = 0;
-
+    qDebug() << "in Exchange_Bitfinex::secondSlot call secondSlot()";
     Exchange::secondSlot();
 }
 

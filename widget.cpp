@@ -80,7 +80,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
    baseValues.restKey;    /* = NULL: Segmentation fault (core dumped)*/
 //    currentExchange = new Exchange_Bitfinex(baseValues.restSign, baseValues.restKey);
     currentExchange = new Exchange_Bitfinex();
-    currentExchange->secondSlot();
+    //currentExchange->secondSlot();
+    /* Starting thread */
+    currentExchange->start();
+
 #endif
 }
 

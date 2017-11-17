@@ -35,3 +35,13 @@ Tat ca nhung request se dc dua vao requestList
 Done:
 connect(julyHttp, SIGNAL(dataReceived(QByteArray, int)), this, SLOT(dataReceivedAuth(QByteArray, int)));
 Connection b/w data receive from network and analyze result
+
+TODO:
+Check price lien tuc
+====
+Input: Check price lien tuc ?? secondSlot() dc goi qua Exchange::run()
+Output: lien quan den indicatorengine.cpp de set va get price
+
+Currency menu
+=====
+1 button ket noi voi 1 menu, menu nay lai chua nhieu cell

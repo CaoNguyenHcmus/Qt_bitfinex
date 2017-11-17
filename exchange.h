@@ -102,9 +102,9 @@ public:
     bool supportsExchangeVolume;
 
     bool orderBookItemIsDedicatedOrder;
-
+#endif
     QTimer* secondTimer;
-
+#if 0
     void setApiKeySecret(QByteArray key, QByteArray secret);
 #endif
     QByteArray& getApiKey();
@@ -114,7 +114,7 @@ public:
     virtual void clearVariables();
     void translateUnicodeStr(QString* str);
     void translateUnicodeOne(QByteArray* str);
-    #endif 
+#endif 
     QByteArray getMidData(QString a, QString b, QByteArray* data);
 //    void setupApi(QtBitcoinTrader*, bool tickerOnly = false);
 
@@ -126,9 +126,9 @@ private:
 #if 0
     QList<char*> apiKeyChars;
     QList<char*> apiSignChars;
-
+#endif
     void run();
-
+#if 0
 signals:
     void availableAmountChanged(QString, double);
     void depthRequested();

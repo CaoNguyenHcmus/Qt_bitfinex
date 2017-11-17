@@ -63,8 +63,8 @@ Exchange::Exchange()
     isLastTradesTypeSupported = true;
     forceDepthLoad = false;
 #endif
-//    clearVariables();
-//    moveToThread(this);
+//    clearVariables(); /* When starting thread */
+    moveToThread(this); /* QObject::startTimer: Timers cannot be started from another thread */
 }
 
 Exchange::~Exchange()
@@ -131,27 +131,33 @@ void Exchange::translateUnicodeOne(QByteArray* str)
     translateUnicodeStr(&strToReturn);
     *str = strToReturn.toLatin1();
 }
-
+#endif
+/* The is thread is call buy widget.cpp via currentExchange->start();*/
 void Exchange::run()
 {
+    qDebug() << "We are in thread exchange bitfinex";
+    /*
     if (debugLevel)
         logThread->writeLogB(baseValues.exchangeName + " API Thread Started", 2);
-
-    clearVariables();
+    */
+    //clearVariables();
 
     secondTimer = new QTimer;
     secondTimer->setSingleShot(true);
     connect(secondTimer, SIGNAL(timeout()), this, SLOT(secondSlot()));
     secondSlot();
+    
     exec();
+    
 }
-#endif
+
 void Exchange::secondSlot()
 {
-    /*
     if (secondTimer)
+    {
+        qDebug() << "We are in thread exchange bitfinex and time-out happening..........................";
         secondTimer->start(baseValues.httpRequestInterval);
-    */
+    }
 }
 
 void Exchange::dataReceivedAuth(QByteArray, int)
@@ -178,7 +184,8 @@ void Exchange::clearVariables()
     lastVolume = 0.0;
     lastFee = 0.0;
 }
-
+#endif
+#if 0
 void Exchange::filterAvailableUSDAmountValue(double*)
 {
 
