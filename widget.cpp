@@ -83,7 +83,6 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     //currentExchange->secondSlot();
     /* Starting thread */
     currentExchange->start();
-
 #endif
 }
 
@@ -844,3 +843,38 @@ void Widget::on_replaceOrderButton_clicked()
 #endif
     }
 }
+//this value of spin box get from indicatorengine emit. here is slot
+void Widget::indicatorHighChanged(QString symbol, double val)
+{
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive)){
+        //setSpinValue(marketHigh, val);
+        marketHigh->setValue(IndicatorEngine::getValue(baseValues.exchangeName +'_' + baseValues.currentPair.symbol + "_High"));
+        //setSpinValue(marketHigh, 0.0);
+        //setSpinValue(ui.marketHigh, IndicatorEngine::getValue(baseValues.exchangeName +'_' + baseValues.currentPair.symbol + "_High"));
+        qDebug() << "Send data to spinbox marketHigh>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    }
+}
+
+void Widget::indicatorSellChanged(QString symbol, double val)
+{
+    qDebug() << "Send data to spinbox marketBid>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive))
+    {
+        // if (val == 0.0)
+        //     val = ui.marketLast->value();
+
+        // if (val == 0.0)
+        //     val = ui.marketAsk->value();
+
+        // if (ui.marketBid->value() == 0.0 && val > 0.0)
+        //     ui.sellPricePerCoin->setValue(val);
+        //setSpinValue(ui.marketBid, val);
+        marketBid->setValue(IndicatorEngine::getValue(baseValues.exchangeName + '_' + baseValues.currentPair.symbol + "_Sell"));
+    }
+}
+
+void Widget::debug_message(QString symbol, double value)
+{
+    qDebug() << "emit indicatorHighChanged(symbol, value) receive....";
+}
+

@@ -98,10 +98,16 @@ int main(int argc, char *argv[])
 #if 1 /* integrating bitfinex exchange */
     baseValues_ = new BaseValues;
     baseValues.Construct();
+    //baseValues.mainWindow_ = new Widget;
 #endif
     QApplication a(argc, argv);
+    //a.setApplicationName("QtBitcoinTrader");
+    
+    //baseValues.mainWindow_ = new QtBitcoinTrader;
 
     Widget *dialog = new Widget;
+    baseValues.mainWindow_ = dialog;
+    //baseValues.mainWindow_->show();
     dialog->show();
 
     return a.exec();

@@ -44,7 +44,7 @@
 //#include "tradesitem.h" /* TODO: symbols & price */
 //#include "julymath.h" /* TODO: convert double & text */
 //#include "timesync.h" /* TODO: time sysnc from NTP time */
-//#include "indicatorengine.h" /* TODO: indicator change */
+#include "indicatorengine.h" /* TODO: indicator change for get and set data from bifinex to UI */
 
 struct DepthItem;
 
@@ -70,21 +70,20 @@ public:
     bool buySellAmountExcludedFee;
 
     CurrencyPairItem currencyPairInfo;
+    #endif
     double lastTickerLast;
     double lastTickerHigh;
     double lastTickerLow;
-#endif
     double lastTickerSell;
-#if 0
     double lastTickerBuy;
     double lastTickerVolume;
-
+    
     double lastBtcBalance;
     double lastUsdBalance;
     double lastAvUsdBalance;
     double lastVolume;
     double lastFee;
-
+    #if 0
     QByteArray lastDepthData;
     QByteArray lastHistory;
     QByteArray lastOrders;
@@ -110,8 +109,9 @@ public:
     QByteArray& getApiKey();
 #if 0
     QByteArray getApiSign();
-
+#endif
     virtual void clearVariables();
+#if 0
     void translateUnicodeStr(QString* str);
     void translateUnicodeOne(QByteArray* str);
 #endif 

@@ -60,7 +60,8 @@ SOURCES       = main.cpp \
 		exchange.cpp \
 		logthread.cpp \
 		currencypairitem.cpp \
-		depthitem.cpp qrc_QtResource.cpp \
+		depthitem.cpp \
+		indicatorengine.cpp qrc_QtResource.cpp \
 		moc_widget.cpp \
 		moc_updaterdialog.cpp \
 		moc_currencymenu.cpp \
@@ -68,7 +69,8 @@ SOURCES       = main.cpp \
 		moc_julyhttp.cpp \
 		moc_exchange_bitfinex.cpp \
 		moc_exchange.cpp \
-		moc_logthread.cpp
+		moc_logthread.cpp \
+		moc_indicatorengine.cpp
 OBJECTS       = main.o \
 		widget.o \
 		updaterdialog.o \
@@ -82,6 +84,7 @@ OBJECTS       = main.o \
 		logthread.o \
 		currencypairitem.o \
 		depthitem.o \
+		indicatorengine.o \
 		qrc_QtResource.o \
 		moc_widget.o \
 		moc_updaterdialog.o \
@@ -90,7 +93,8 @@ OBJECTS       = main.o \
 		moc_julyhttp.o \
 		moc_exchange_bitfinex.o \
 		moc_exchange.o \
-		moc_logthread.o
+		moc_logthread.o \
+		moc_indicatorengine.o
 DIST          = /opt/Qt5.6.2/5.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.6.2/5.6/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.6.2/5.6/gcc_64/mkspecs/common/linux.conf \
@@ -237,7 +241,8 @@ DIST          = /opt/Qt5.6.2/5.6/gcc_64/mkspecs/features/spec_pre.prf \
 		logthread.h \
 		currencypairitem.h \
 		currencyinfo.h \
-		depthitem.h main.cpp \
+		depthitem.h \
+		indicatorengine.h main.cpp \
 		widget.cpp \
 		updaterdialog.cpp \
 		BitfinexAPI.cpp \
@@ -249,7 +254,8 @@ DIST          = /opt/Qt5.6.2/5.6/gcc_64/mkspecs/features/spec_pre.prf \
 		exchange.cpp \
 		logthread.cpp \
 		currencypairitem.cpp \
-		depthitem.cpp
+		depthitem.cpp \
+		indicatorengine.cpp
 QMAKE_TARGET  = Qt_bitfinex
 DESTDIR       = 
 TARGET        = Qt_bitfinex
@@ -557,8 +563,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents QtResource.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents widget.h updaterdialog.h BitfinexAPI.hpp menu/currencymenu.h menu/currencymenucell.h julyhttp.h main.h exchange_bitfinex.h exchange.h logthread.h currencypairitem.h currencyinfo.h depthitem.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp widget.cpp updaterdialog.cpp BitfinexAPI.cpp example.cpp menu/currencymenu.cpp menu/currencymenucell.cpp julyhttp.cpp exchange_bitfinex.cpp exchange.cpp logthread.cpp currencypairitem.cpp depthitem.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents widget.h updaterdialog.h BitfinexAPI.hpp menu/currencymenu.h menu/currencymenucell.h julyhttp.h main.h exchange_bitfinex.h exchange.h logthread.h currencypairitem.h currencyinfo.h depthitem.h indicatorengine.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp widget.cpp updaterdialog.cpp BitfinexAPI.cpp example.cpp menu/currencymenu.cpp menu/currencymenucell.cpp julyhttp.cpp exchange_bitfinex.cpp exchange.cpp logthread.cpp currencypairitem.cpp depthitem.cpp indicatorengine.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents widget.ui menu/currencymenu.ui menu/currencymenucell.ui $(DISTDIR)/
 
 
@@ -589,9 +595,9 @@ qrc_QtResource.cpp: QtResource.qrc \
 		Resources/CertBase.cer
 	/opt/Qt5.6.2/5.6/gcc_64/bin/rcc -name QtResource QtResource.qrc -o qrc_QtResource.cpp
 
-compiler_moc_header_make_all: moc_widget.cpp moc_updaterdialog.cpp moc_currencymenu.cpp moc_currencymenucell.cpp moc_julyhttp.cpp moc_exchange_bitfinex.cpp moc_exchange.cpp moc_logthread.cpp
+compiler_moc_header_make_all: moc_widget.cpp moc_updaterdialog.cpp moc_currencymenu.cpp moc_currencymenucell.cpp moc_julyhttp.cpp moc_exchange_bitfinex.cpp moc_exchange.cpp moc_logthread.cpp moc_indicatorengine.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_widget.cpp moc_updaterdialog.cpp moc_currencymenu.cpp moc_currencymenucell.cpp moc_julyhttp.cpp moc_exchange_bitfinex.cpp moc_exchange.cpp moc_logthread.cpp
+	-$(DEL_FILE) moc_widget.cpp moc_updaterdialog.cpp moc_currencymenu.cpp moc_currencymenucell.cpp moc_julyhttp.cpp moc_exchange_bitfinex.cpp moc_exchange.cpp moc_logthread.cpp moc_indicatorengine.cpp
 moc_widget.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qwindowdefs.h \
@@ -701,6 +707,53 @@ moc_widget.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
 		ui_widget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		widget.h
 	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore widget.h -o moc_widget.cpp
@@ -1219,6 +1272,9 @@ moc_exchange_bitfinex.cpp: exchange.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		exchange_bitfinex.h
 	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore exchange_bitfinex.h -o moc_exchange_bitfinex.cpp
 
@@ -1321,6 +1377,9 @@ moc_exchange.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QThread \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		exchange.h
 	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore exchange.h -o moc_exchange.cpp
 
@@ -1386,6 +1445,67 @@ moc_logthread.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QThread \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qiodevice.h \
 		logthread.h
 	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore logthread.h -o moc_logthread.cpp
+
+moc_indicatorengine.cpp: /opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qhash.h \
+		indicatorengine.h
+	/opt/Qt5.6.2/5.6/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.6.2/5.6/gcc_64/mkspecs/linux-g++ -I/my_data/Qt_Env/qt_workspace/Qt_bitfinex -I/opt/Qt5.6.2/5.6/gcc_64/include -I/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets -I/opt/Qt5.6.2/5.6/gcc_64/include/QtGui -I/opt/Qt5.6.2/5.6/gcc_64/include/QtNetwork -I/opt/Qt5.6.2/5.6/gcc_64/include/QtCore indicatorengine.h -o moc_indicatorengine.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1521,7 +1641,10 @@ main.o: main.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
 		ui_widget.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1529,6 +1652,43 @@ main.o: main.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		BitfinexAPI.hpp \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QString \
 		updaterdialog.h \
@@ -1564,6 +1724,9 @@ main.o: main.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QByteArray \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QJsonDocument \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qjsondocument.h \
@@ -1685,6 +1848,53 @@ widget.o: widget.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qicon.h \
 		ui_widget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QCheckBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QComboBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QDoubleSpinBox \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug \
 		BitfinexAPI.hpp \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QString \
@@ -1730,12 +1940,13 @@ widget.o: widget.cpp widget.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		exchange_bitfinex.h \
 		menu/currencymenu.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QMenu \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qmenu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.o widget.cpp
 
 updaterdialog.o: updaterdialog.cpp updaterdialog.h \
@@ -2116,6 +2327,47 @@ currencymenu.o: menu/currencymenu.cpp /opt/Qt5.6.2/5.6/gcc_64/include/QtGui/QScr
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qaction.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
 		ui_currencymenu.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QScrollArea \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qgridlayout.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o currencymenu.o menu/currencymenu.cpp
 
@@ -2231,7 +2483,43 @@ currencymenucell.o: menu/currencymenucell.cpp /opt/Qt5.6.2/5.6/gcc_64/include/Qt
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
 		menu/currencymenucell.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QWidget \
-		ui_currencymenucell.h
+		ui_currencymenucell.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QAction \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtWidgets/qgridlayout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o currencymenucell.o menu/currencymenucell.cpp
 
 julyhttp.o: julyhttp.cpp julyhttp.h \
@@ -2439,6 +2727,9 @@ exchange_bitfinex.o: exchange_bitfinex.cpp exchange_bitfinex.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exchange_bitfinex.o exchange_bitfinex.cpp
 
@@ -2542,6 +2833,9 @@ exchange.o: exchange.cpp exchange.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QSharedDataPointer \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QList \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMetaType \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDateTime \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o exchange.o exchange.cpp
@@ -2826,6 +3120,88 @@ depthitem.o: depthitem.cpp depthitem.h \
 		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o depthitem.o depthitem.cpp
 
+indicatorengine.o: indicatorengine.cpp /opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QThread \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qthread.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qobject_impl.h \
+		indicatorengine.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QMutex \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QHash \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qhash.h \
+		main.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qshareddata.h \
+		logthread.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/qfiledevice.h \
+		currencypairitem.h \
+		currencyinfo.h \
+		/opt/Qt5.6.2/5.6/gcc_64/include/QtCore/QDebug
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o indicatorengine.o indicatorengine.cpp
+
 qrc_QtResource.o: qrc_QtResource.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_QtResource.o qrc_QtResource.cpp
 
@@ -2852,6 +3228,9 @@ moc_exchange.o: moc_exchange.cpp
 
 moc_logthread.o: moc_logthread.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_logthread.o moc_logthread.cpp
+
+moc_indicatorengine.o: moc_indicatorengine.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_indicatorengine.o moc_indicatorengine.cpp
 
 ####### Install
 

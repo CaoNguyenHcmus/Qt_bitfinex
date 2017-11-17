@@ -41,12 +41,12 @@ Exchange_Bitfinex::Exchange_Bitfinex() : Exchange()
     // calculatingFeeMode = 1;
     // historyLastTimestamp = "0";
     // lastTradesDate = 0;
-    // tickerLastDate = 0;
+    tickerLastDate = 0;
     // isFirstAccInfo = true;
     // lastInfoReceived = false;
     // apiDownCounter = 0;
     // secondPart = 0;
-    // baseValues.exchangeName = "Bitfinex";
+    baseValues.exchangeName = "Bitfinex";
 
     // setApiKeySecret(pRestKey, pRestSign);
 
@@ -179,7 +179,7 @@ void Exchange_Bitfinex::secondSlot()
 
     if (sendCounter++ >= 5)
         sendCounter = 0;
-    qDebug() << "in Exchange_Bitfinex::secondSlot call secondSlot()";
+    qDebug() << "in Exchange_Bitfinex::secondSlot call Exchange::secondSlot() with Timer";
     Exchange::secondSlot();
 }
 
@@ -418,11 +418,11 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerSell.isEmpty())
                 {
                     double newTickerSell = tickerSell.toDouble();
-                    qDebug() << "newTickerSell: " << newTickerSell;
-/*
+                    //qDebug() << "newTickerSell: " << newTickerSell;
+
                     if (newTickerSell != lastTickerSell)
                         IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Sell", newTickerSell);
-*/
+
                     lastTickerSell = newTickerSell;
                 }
 
@@ -431,39 +431,39 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerBuy.isEmpty())
                 {
                     double newTickerBuy = tickerBuy.toDouble();
-                    qDebug() << "newTickerBuy: " << newTickerBuy;
-                    /*
+                    //qDebug() << "newTickerBuy: " << newTickerBuy;
+                    
                     if (newTickerBuy != lastTickerBuy)
                         IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Buy", newTickerBuy);
 
                     lastTickerBuy = newTickerBuy;
-                    */
+                    
                 }
 
                 quint32 tickerNow = getMidData("timestamp\":\"", ".", &data).toUInt();
-                qDebug() << "tickerNow: " << tickerNow;
-                // if (tickerLastDate < tickerNow)
-                // {
-                //     QByteArray tickerLast = getMidData("last_price\":\"", "\"", &data);
-                //     double newTickerLast = tickerLast.toDouble();
+                //qDebug() << "tickerNow: " << tickerNow;
+                if (tickerLastDate < tickerNow)
+                {
+                    QByteArray tickerLast = getMidData("last_price\":\"", "\"", &data);
+                    double newTickerLast = tickerLast.toDouble();
 
-                //     // if (newTickerLast > 0.0)
-                //     // {
-                //     //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Last", newTickerLast);
-                //     //     tickerLastDate = tickerNow;
-                //     // }
-                // }
+                    if (newTickerLast > 0.0)
+                    {
+                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Last", newTickerLast);
+                        tickerLastDate = tickerNow;
+                    }
+                }
 
                 QByteArray tickerHigh = getMidData("high\":\"", "\"", &data);
 
                 if (!tickerHigh.isEmpty())
                 {
                     double newTickerHigh = tickerHigh.toDouble();
-                    qDebug() << "newTickerHigh: " << newTickerHigh;
-                    // if (newTickerHigh != lastTickerHigh)
-                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "High", newTickerHigh);
+                    //qDebug() << "newTickerHigh: " << newTickerHigh;
+                    if (newTickerHigh != lastTickerHigh)
+                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "High", newTickerHigh);
 
-                    // lastTickerHigh = newTickerHigh;
+                    lastTickerHigh = newTickerHigh;
                 }
 
                 QByteArray tickerLow = getMidData("\"low\":\"", "\"", &data);
@@ -471,11 +471,11 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerLow.isEmpty())
                 {
                     double newTickerLow = tickerLow.toDouble();
-                    qDebug() << "newTickerLow: " << newTickerLow;
-                    // if (newTickerLow != lastTickerLow)
-                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Low", newTickerLow);
+                    //qDebug() << "newTickerLow: " << newTickerLow;
+                    if (newTickerLow != lastTickerLow)
+                        IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Low", newTickerLow);
 
-                    // lastTickerLow = newTickerLow;
+                    lastTickerLow = newTickerLow;
                 }
 
                 QByteArray tickerVolume = getMidData("\"volume\":\"", "\"", &data);
@@ -483,11 +483,11 @@ void Exchange_Bitfinex::dataReceivedAuth(QByteArray data, int reqType)
                 if (!tickerVolume.isEmpty())
                 {
                     double newTickerVolume = tickerVolume.toDouble();
-                    qDebug() << "newTickerVolume: " << newTickerVolume;
-                    // if (newTickerVolume != lastTickerVolume)
-                    //     IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Volume", newTickerVolume);
+                    //qDebug() << "newTickerVolume: " << newTickerVolume;
+                    if (newTickerVolume != lastTickerVolume)
+                         IndicatorEngine::setValue(baseValues.exchangeName, baseValues.currentPair.symbol, "Volume", newTickerVolume);
 
-                    // lastTickerVolume = newTickerVolume;
+                    lastTickerVolume = newTickerVolume;
                 }
             }
             else if (debugLevel)

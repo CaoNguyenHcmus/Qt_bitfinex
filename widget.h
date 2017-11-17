@@ -27,6 +27,15 @@ public slots:
     void get_data();
     void setValue();
 
+    void indicatorHighChanged(QString, double);
+    // void indicatorLowChanged(QString, double);
+    void indicatorSellChanged(QString, double);
+    // void indicatorLastChanged(QString, double);
+    // void indicatorBuyChanged(QString, double);
+    // void indicatorVolumeChanged(QString, double);
+
+    void debug_message(QString, double);
+
 signals:
     void valueChanged(double);
 /*

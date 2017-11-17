@@ -29,68 +29,41 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef EXCHANGE_BITFINEX_H
-#define EXCHANGE_BITFINEX_H
+#ifndef INDICATORENGINE_H
+#define INDICATORENGINE_H
 
-#include "exchange.h"
+#include <QObject>
+#include <QMutex>
+#include <QHash>
 
-class Exchange_Bitfinex : public Exchange
+class IndicatorEngine : public QObject
 {
-   Q_OBJECT
-
+    Q_OBJECT
 public:
-//   Exchange_Bitfinex(QByteArray pRestSign, QByteArray pRestKey);
-    Exchange_Bitfinex();
-//    ~Exchange_Bitfinex();
+    IndicatorEngine();
+    ~IndicatorEngine();
+
+    static IndicatorEngine* global(); /*for mutex lock */
+    static void setValue(QString, QString, QString, double);
+    static double getValue(QString);
 
 private:
-//    QByteArray historyLastTimestamp;
-/*
-    bool isFirstAccInfo;
-*/
-    bool isReplayPending(int);
-/*
-    bool lastInfoReceived;
+    QMutex locker;
+    QHash<QByteArray, double> indicators;
 
-    int apiDownCounter;
-    int secondPart;
-*/
-    JulyHttp* julyHttp;
-/*
-    QByteArray lastTradesDateCache;
-
-    quint64 lastTradesDate;
-*/
-    quint32 tickerLastDate;
-/*
-    quint32 lastHistoryId;
-
-    QList<DepthItem>* depthAsks;
-    QList<DepthItem>* depthBids;
-
-    QMap<double, double> lastDepthAsksMap;
-    QMap<double, double> lastDepthBidsMap;
-
-    QString apiLogin;
-
-    QTime authRequestTime;
-
-    quint32 privateNonce;
-*/
-//    void clearVariables();
-//    void depthSubmitOrder(QString, QMap<double, double>*, double, double, bool);
-//    void depthUpdateOrder(QString, double, double, bool);
-    void sendToApi(int reqType, QByteArray method, bool auth = false, bool sendNow = true, QByteArray commands = 0);
 private slots:
-    void secondSlot();
-public slots:
-    void dataReceivedAuth(QByteArray, int);
-//    void reloadDepth();
-//    void clearValues();
-//    void getHistory(bool);
-//    void buy(QString, double, double);
-//   void sell(QString, double, double);
-//    void cancelOrder(QString, QByteArray);
+    void setValueSlot(QString, QString, QString, double);
+
+signals:
+    void indicatorChanged(QString, QString, QString, double);
+    void indicatorHighChanged(QString, double);
+    void indicatorLowChanged(QString, double);
+    void indicatorSellChanged(QString, double);
+    void indicatorBuyChanged(QString, double);
+    void indicatorLastChanged(QString, double);
+    void indicatorVolumeChanged(QString, double);
+    
+    void finishThread();
 };
 
-#endif // EXCHANGE_BITFINEX_H
+#endif // INDICATORENGINE_H

@@ -144,8 +144,8 @@ void Exchange::run()
 
     secondTimer = new QTimer;
     secondTimer->setSingleShot(true);
-    connect(secondTimer, SIGNAL(timeout()), this, SLOT(secondSlot()));
-    secondSlot();
+    connect(secondTimer, SIGNAL(timeout()), this, SLOT(secondSlot())); //Connect secondSlot() in exchange bitfinex with secondTimer
+    secondSlot(); /* If comment this line this thead will stopping it come from  */
     
     exec();
     
@@ -168,7 +168,7 @@ void Exchange::reloadDepth()
 {
     forceDepthLoad = true;
 }
-
+#endif
 void Exchange::clearVariables()
 {
     lastTickerLast = 0.0;
@@ -184,7 +184,6 @@ void Exchange::clearVariables()
     lastVolume = 0.0;
     lastFee = 0.0;
 }
-#endif
 #if 0
 void Exchange::filterAvailableUSDAmountValue(double*)
 {

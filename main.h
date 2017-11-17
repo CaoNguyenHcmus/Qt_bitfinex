@@ -42,15 +42,16 @@
 #if 0
 #define textFontWidth(text) baseValues_->fontMetrics_->width(text)
 #endif
-
+#include "widget.h" /* main window */
 #define debugLevel (logThread ? logThread->logLevel : 0)    //‘logThread’ was not declared in this scope
 #define logThread (baseValues_->logThread_)                 //‘logThread’ was not declared in this scope
 
 #if 0
 #define appDataDir (baseValues_->appDataDir_)
 #define grouped (baseValues_->groupPriceValue>0.0?2:0)
+#endif
 #define mainWindow (*baseValues_->mainWindow_)
-
+#if 0
 #define julyTr baseValues_->julyTranslator_.translateString
 #define julyTranslator baseValues_->julyTranslator_
 #endif
@@ -146,8 +147,10 @@ struct BaseValues
     QByteArray restSign; // authen in widget.cpp
     /*
     QByteArray randomPassword;
-    QtBitcoinTrader* mainWindow_;
-    QString logFileName;
+    */
+    //QtBitcoinTrader* mainWindow_;
+    Widget* mainWindow_;
+    /*QString logFileName;
     QString iniFileName;
     QString desktopLocation;
     QString tempLocation;

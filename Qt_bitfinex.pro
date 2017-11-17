@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     exchange.cpp \
     logthread.cpp \
     currencypairitem.cpp \
-    depthitem.cpp
+    depthitem.cpp \
+    indicatorengine.cpp
 
 HEADERS  += widget.h \
     updaterdialog.h \
@@ -40,7 +41,8 @@ HEADERS  += widget.h \
     logthread.h \
     currencypairitem.h \
     currencyinfo.h \
-    depthitem.h
+    depthitem.h \
+    indicatorengine.h
 
 FORMS    += widget.ui \
     menu/currencymenu.ui \
