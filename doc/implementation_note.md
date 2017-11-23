@@ -36,15 +36,22 @@ Done:
 connect(julyHttp, SIGNAL(dataReceived(QByteArray, int)), this, SLOT(dataReceivedAuth(QByteArray, int)));
 Connection b/w data receive from network and analyze result
 
-Check price lien tuc
+Check price lien tuc (1 thread)
 ====
 Input: Check price lien tuc ?? secondSlot() dc goi qua Exchange::run()
 --Using thread. Done
 
 Output: lien quan den indicatorengine.cpp de set va get price
-Khi lay du lieu ve dua du lieu vao indicatgorenge & ben ngoai se get gia nay
+Khi lay du lieu ve dua du lieu vao IndicatorEngine & ben ngoai se get gia nay
 
 
-Currency menu
+Currency menu (1 thread dung iniengine de luu vao currency menu)
 =====
 1 button ket noi voi 1 menu, menu nay lai chua nhieu cell
+TODO
+Input: Set gia tri ban dau cho menu list qua ham setCurrencyPairsList();
+QMap<QString, CurrencyPairItem> currencyPairMap;
+Muon co currencyPairMap ta phai down tu trang chu ve hoac luu tu local
+Ta luu o local: dung iniengine.cpp file
+main: IniEngine::global(); //run thread for get pair list from exchange
+Know-how using QThread

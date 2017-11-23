@@ -90,7 +90,7 @@ struct BaseValues
     int trafficTotalType;
 */
     CurrencyPairItem currentPair; /* exchange.h:63:5: error: ‘CurrencyPairItem’ does not name a type */
-//    QMap<QString, CurrencyPairItem> currencyPairMap;
+    QMap<QString, CurrencyPairItem> currencyPairMap;
 /*
     int currentTheme;
 

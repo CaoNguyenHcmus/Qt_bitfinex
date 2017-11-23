@@ -20,6 +20,7 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     
+    void setCurrencyPairsList();
     CurrencyMenu* currencyMenu;
     
     
@@ -33,8 +34,10 @@ public slots:
     // void indicatorLastChanged(QString, double);
     // void indicatorBuyChanged(QString, double);
     // void indicatorVolumeChanged(QString, double);
-
+    
     void debug_message(QString, double);
+    /* ket noi giua menucell toi main window display ui */
+    void currencyMenuChanged(int);
 
 signals:
     void valueChanged(double);

@@ -56,7 +56,7 @@ Exchange_Bitfinex::Exchange_Bitfinex() : Exchange()
     julyHttp = 0;
     // tickerOnly = false;
 
-    // currencyMapFile = "Bitfinex";
+    currencyMapFile = "Bitfinex"; //for file in resource for get currecy list
     baseValues.currentPair.name = "BTC/USD";
     //baseValues.currentPair.setSymbol("BTCUSD");
     baseValues.currentPair.currRequestPair = "btcusd";
@@ -65,13 +65,14 @@ Exchange_Bitfinex::Exchange_Bitfinex() : Exchange()
     baseValues.currentPair.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
     baseValues.currentPair.tradeVolumeMin = 0.01;
     baseValues.currentPair.tradePriceMin = 0.1;
-    // defaultCurrencyParams.currADecimals = 8;
-    // defaultCurrencyParams.currBDecimals = 5;
-    // defaultCurrencyParams.currABalanceDecimals = 8;
-    // defaultCurrencyParams.currBBalanceDecimals = 5;
-    // defaultCurrencyParams.priceDecimals = 5;
-    // defaultCurrencyParams.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
-
+#if 1 /* defaultCurrencyParams */
+    defaultCurrencyParams.currADecimals = 8;
+    defaultCurrencyParams.currBDecimals = 5;
+    defaultCurrencyParams.currABalanceDecimals = 8;
+    defaultCurrencyParams.currBBalanceDecimals = 5;
+    defaultCurrencyParams.priceDecimals = 5;
+    defaultCurrencyParams.priceMin = qPow(0.1, baseValues.currentPair.priceDecimals);
+#endif
     // supportsLoginIndicator = false;
     // supportsAccountVolume = false;
 

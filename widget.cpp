@@ -54,7 +54,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     //Is also call when 1 cell cointain coin is clicked()
     currencyMenu->setCurrentIndex(indexCurrency); 
     //ket noi giua
-    //connect(currencyMenu, &CurrencyMenu::currencyMenuChanged, this, &QtBitcoinTrader::currencyMenuChanged);
+    connect(currencyMenu, &CurrencyMenu::currencyMenuChanged, this, &Widget::currencyMenuChanged);
 #endif
 
     symbols =
@@ -80,8 +80,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
    baseValues.restKey;    /* = NULL: Segmentation fault (core dumped)*/
 //    currentExchange = new Exchange_Bitfinex(baseValues.restSign, baseValues.restKey);
     currentExchange = new Exchange_Bitfinex();
+    currentExchange->setupApi(this, false);
+    //
+    //setCurrencyPairsList(); /* TODO */
     //currentExchange->secondSlot();
-    /* Starting thread */
+    /* Starting thread to get data from web */
     currentExchange->start();
 #endif
 }
@@ -876,5 +879,194 @@ void Widget::indicatorSellChanged(QString symbol, double val)
 void Widget::debug_message(QString symbol, double value)
 {
     qDebug() << "emit indicatorHighChanged(symbol, value) receive....";
+}
+
+void Widget::setCurrencyPairsList()
+{
+    
+    baseValues.currencyPairMap.clear();
+    //QString savedCurrency = iniSettings->value("Profile/Currency", "BTC/USD").toString(); /* We don't save setting now */
+    int indexCurrency = 0;
+    QStringList currencyItems;
+    #if 0
+    for (int n = 0; n < IniEngine::getPairsCount(); n++)
+    {
+        CurrencyPairItem pairItem = IniEngine::getPairs()->at(n);
+
+        if (pairItem.currRequestSecond.isEmpty())
+            baseValues.currencyPairMap[pairItem.symbol] = pairItem;
+        else
+        {
+            baseValues.currencyPairMap[pairItem.symbol + pairItem.currRequestSecond.toUpper()] = pairItem;
+
+            if (pairItem.currRequestSecond == "exchange")
+                baseValues.currencyPairMap[pairItem.symbol] = pairItem;
+        }
+
+        if (pairItem.name == savedCurrency)
+            indexCurrency = n;
+
+        currencyItems << pairItem.name;
+    }
+
+    currencyMenu->setPairs(currencyItems);
+    currencyMenu->setCurrentIndex(indexCurrency);
+
+    ui.filterOrdersCurrency->clear();
+    ui.filterOrdersCurrency->insertItems(0, currencyItems);
+    ui.filterOrdersCurrency->setCurrentIndex(0);
+    #endif
+}
+// Important function to change UI
+void Widget::currencyMenuChanged(int val)
+{
+    qDebug() << "0000000000000000000000 main window: 0000000000000000000000" << val;
+    #if 0
+    if (!constructorFinished || val < 0 || IniEngine::getPairsCount() != currencyMenu->count())
+        return;
+
+    /*bool fastChange = ui.currencyComboBox->itemText(val).left(5) ==
+                      ui.currencyComboBox->itemText(lastLoadedCurrency).left(5);
+    if (val == lastLoadedCurrency)
+        return;
+    lastLoadedCurrency = val;*/
+    #endif
+    //CurrencyPairItem nextCurrencyPair = IniEngine::getPairs()->at(val);
+    //bool currencyAChanged = nextCurrencyPair.currAStr != baseValues.currentPair.currAStr;
+    //bool currencyBChanged = nextCurrencyPair.currBStr != baseValues.currentPair.currBStr;
+    #if 0
+    /*if (fastChange)
+    {
+        baseValues.currentPair = nextCurrencyPair;
+
+        setSpinValue(ui.accountBTC, 0.0);
+        setSpinValue(ui.accountUSD, 0.0);
+
+        Q_FOREACH (RuleWidget* currentGroup, ui.tabRules->findChildren<RuleWidget*>())
+            currentGroup->currencyChanged();
+
+        Q_FOREACH (ScriptWidget* currentGroup, ui.tabRules->findChildren<ScriptWidget*>())
+            currentGroup->currencyChanged();
+
+        return;
+    }*/
+
+    fillAllUsdLabels(this, nextCurrencyPair.currBStr);
+    fillAllBtcLabels(this, nextCurrencyPair.currAStr);
+
+    // TODO: ?? fillAll Usd/Btc for float
+
+    iniSettings->setValue("Profile/Currency", ui.currencyMenuTool->text());
+
+    if (currencyAChanged)
+        setSpinValue(ui.accountBTC, 0.0);
+
+    if (currencyBChanged)
+        setSpinValue(ui.accountUSD, 0.0);
+
+    ui.buyTotalSpend->setValue(0.0);
+    ui.sellTotalBtc->setValue(0.0);
+    ui.tradesVolume5m->setValue(0.0);
+    setSpinValue(ui.ruleAmountToReceiveValue, 0.0);
+    setSpinValue(ui.ruleTotalToBuyValue, 0.0);
+    setSpinValue(ui.ruleAmountToReceiveBSValue, 0.0);
+    setSpinValue(ui.ruleTotalToBuyBSValue, 0.0);
+
+    precentBidsChanged(0.0);
+    tradesModel->clear();
+    tradesPrecentLast = 0.0;
+
+    QString buyGroupboxText = julyTr("GROUPBOX_BUY", "Buy %1");
+    bool buyGroupboxCase = false;
+
+    if (buyGroupboxText.length() > 2)
+        buyGroupboxCase = buyGroupboxText.at(2).isUpper();
+
+    if (buyGroupboxCase)
+        buyGroupboxText = buyGroupboxText.arg(nextCurrencyPair.currAName.toUpper());
+    else
+        buyGroupboxText = buyGroupboxText.arg(nextCurrencyPair.currAName);
+
+    ui.widgetBuy->parentWidget()->setWindowTitle(buyGroupboxText);
+
+    QString sellGroupboxText = julyTr("GROUPBOX_SELL", "Sell %1");
+    bool sellGroupboxCase = true;
+
+    if (sellGroupboxText.length() > 2)
+        sellGroupboxCase = sellGroupboxText.at(2).isUpper();
+
+    if (sellGroupboxCase)
+        sellGroupboxText = sellGroupboxText.arg(nextCurrencyPair.currAName.toUpper());
+    else
+        sellGroupboxText = sellGroupboxText.arg(nextCurrencyPair.currAName);
+
+    ui.widgetSell->parentWidget()->setWindowTitle(sellGroupboxText);
+
+    if (currentExchange->clearHistoryOnCurrencyChanged)
+    {
+        historyModel->clear();
+
+        setSpinValue(ui.ordersLastBuyPrice, 0.0);
+        setSpinValue(ui.ordersLastSellPrice, 0.0);
+    }
+
+    static int firstLoad = 0;
+
+    if (firstLoad++ > 1)
+    {
+        firstLoad = 3;
+        emit clearValues();
+    }
+
+    clearDepth();
+
+    marketPricesNotLoaded = true;
+    balanceNotLoaded = true;
+    fixDecimals(this);
+
+    iniSettings->sync();
+
+    baseValues.currentPair = nextCurrencyPair;
+    depthAsksModel->fixTitleWidths();
+    depthBidsModel->fixTitleWidths();
+
+    calcOrdersTotalValues();
+
+    ui.filterOrdersCurrency->setCurrentIndex(val);
+
+    currencyChangedDate = TimeSync::getTimeT();
+
+    setSpinValue(ui.ordersLastBuyPrice, 0.0);
+    setSpinValue(ui.ordersLastSellPrice, 0.0);
+
+    fixDecimals(this);
+
+    emit getHistory(true);
+    emit clearCharts();
+    chartsView->clearCharts();
+
+    setSpinValue(ui.marketHigh, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_High"));
+    setSpinValue(ui.marketLow, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_Low"));
+    setSpinValue(ui.marketLast, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_Last"));
+    setSpinValue(ui.marketVolume, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_Volume"));
+    setSpinValue(ui.marketAsk, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_Buy"));
+    setSpinValue(ui.marketBid, IndicatorEngine::getValue(baseValues.exchangeName +
+                 '_' + baseValues.currentPair.symbol + "_Sell"));
+
+    if (ui.marketAsk->value())
+        ui.buyPricePerCoin->setValue(ui.marketAsk->value());
+    else
+        ui.buyPricePerCoin->setValue(100.0);
+
+    if (ui.marketBid->value())
+        ui.sellPricePerCoin->setValue(ui.marketBid->value());
+    else
+        ui.sellPricePerCoin->setValue(200.0);
+    #endif
 }
 

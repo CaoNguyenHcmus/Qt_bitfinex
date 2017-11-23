@@ -14,6 +14,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include "iniengine.h"
 using std::cout;
 using std::endl;
 using std::ifstream;
@@ -104,10 +105,11 @@ int main(int argc, char *argv[])
     //a.setApplicationName("QtBitcoinTrader");
     
     //baseValues.mainWindow_ = new QtBitcoinTrader;
-
+    IniEngine::global(); //get pair list from exchange
     Widget *dialog = new Widget;
     baseValues.mainWindow_ = dialog;
     //baseValues.mainWindow_->show();
+   
     dialog->show();
 
     return a.exec();

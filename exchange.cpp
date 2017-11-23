@@ -35,7 +35,7 @@
 //#include "depthitem.h"
 #include <QFile>
 #include "currencypairitem.h"
-//#include "iniengine.h"
+#include "iniengine.h" /* for get currency list */
 #include <QDebug>
 
 Exchange::Exchange()
@@ -189,50 +189,54 @@ void Exchange::filterAvailableUSDAmountValue(double*)
 {
 
 }
-#if 0
-void Exchange::setupApi(QtBitcoinTrader* mainClass, bool tickOnly)//Execute only once
+#endif
+#if 1
+void Exchange::setupApi(Widget* mainClass, bool tickOnly)//Execute only once
 {
+    qDebug() << "=======setupApi for currency menu=======";
+    /**/
     IniEngine::loadExchangeLock(currencyMapFile, defaultCurrencyParams);
-    tickerOnly = tickOnly;
+    // tickerOnly = tickOnly;
 
-    if (!tickerOnly)
-    {
-        connect(mainClass, SIGNAL(apiBuy(QString, double, double)), this, SLOT(buy(QString, double, double)));
-        connect(mainClass, SIGNAL(apiSell(QString, double, double)), this, SLOT(sell(QString, double, double)));
-        connect(mainClass, SIGNAL(cancelOrderByOid(QString, QByteArray)), this, SLOT(cancelOrder(QString, QByteArray)));
-        connect(mainClass, SIGNAL(getHistory(bool)), this, SLOT(getHistory(bool)));
+    // if (!tickerOnly)
+    // {
+    //     connect(mainClass, SIGNAL(apiBuy(QString, double, double)), this, SLOT(buy(QString, double, double)));
+    //     connect(mainClass, SIGNAL(apiSell(QString, double, double)), this, SLOT(sell(QString, double, double)));
+    //     connect(mainClass, SIGNAL(cancelOrderByOid(QString, QByteArray)), this, SLOT(cancelOrder(QString, QByteArray)));
+    //     connect(mainClass, SIGNAL(getHistory(bool)), this, SLOT(getHistory(bool)));
 
-        connect(this, SIGNAL(orderBookChanged(QString, QList<OrderItem>*)), mainClass, SLOT(orderBookChanged(QString,
-                QList<OrderItem>*)));
-        connect(this, SIGNAL(historyChanged(QList<HistoryItem>*)), mainClass, SLOT(historyChanged(QList<HistoryItem>*)));
-        connect(this, SIGNAL(orderCanceled(QString, QByteArray)), mainClass, SLOT(orderCanceled(QString, QByteArray)));
-        connect(this, SIGNAL(ordersIsEmpty()), mainClass, SLOT(ordersIsEmpty()));
-    }
+    //     connect(this, SIGNAL(orderBookChanged(QString, QList<OrderItem>*)), mainClass, SLOT(orderBookChanged(QString,
+    //             QList<OrderItem>*)));
+    //     connect(this, SIGNAL(historyChanged(QList<HistoryItem>*)), mainClass, SLOT(historyChanged(QList<HistoryItem>*)));
+    //     connect(this, SIGNAL(orderCanceled(QString, QByteArray)), mainClass, SLOT(orderCanceled(QString, QByteArray)));
+    //     connect(this, SIGNAL(ordersIsEmpty()), mainClass, SLOT(ordersIsEmpty()));
+    // }
 
-    connect(this, SIGNAL(depthRequested()), mainClass, SLOT(depthRequested()));
-    connect(this, SIGNAL(depthRequestReceived()), mainClass, SLOT(depthRequestReceived()));
-    connect(this, SIGNAL(depthSubmitOrders(QString, QList<DepthItem>*, QList<DepthItem>*)), mainClass,
-            SLOT(depthSubmitOrders(QString, QList<DepthItem>*, QList<DepthItem>*)));
-    connect(this, SIGNAL(depthFirstOrder(QString, double, double, bool)), mainClass, SLOT(depthFirstOrder(QString, double,
-            double, bool)));
-    connect(this, SIGNAL(showErrorMessage(QString)), mainClass, SLOT(showErrorMessage(QString)));
+    // connect(this, SIGNAL(depthRequested()), mainClass, SLOT(depthRequested()));
+    // connect(this, SIGNAL(depthRequestReceived()), mainClass, SLOT(depthRequestReceived()));
+    // connect(this, SIGNAL(depthSubmitOrders(QString, QList<DepthItem>*, QList<DepthItem>*)), mainClass,
+    //         SLOT(depthSubmitOrders(QString, QList<DepthItem>*, QList<DepthItem>*)));
+    // connect(this, SIGNAL(depthFirstOrder(QString, double, double, bool)), mainClass, SLOT(depthFirstOrder(QString, double,
+    //         double, bool)));
+    // connect(this, SIGNAL(showErrorMessage(QString)), mainClass, SLOT(showErrorMessage(QString)));
 
-    connect(this, SIGNAL(availableAmountChanged(QString, double)), mainClass, SLOT(availableAmountChanged(QString,
-            double)));
-    connect(mainClass, SIGNAL(clearValues()), this, SLOT(clearValues()));
-    connect(mainClass, SIGNAL(reloadDepth()), this, SLOT(reloadDepth()));
+    // connect(this, SIGNAL(availableAmountChanged(QString, double)), mainClass, SLOT(availableAmountChanged(QString,
+    //         double)));
+    // connect(mainClass, SIGNAL(clearValues()), this, SLOT(clearValues()));
+    // connect(mainClass, SIGNAL(reloadDepth()), this, SLOT(reloadDepth()));
 
-    connect(this, SIGNAL(accVolumeChanged(double)), mainClass->ui.accountVolume, SLOT(setValue(double)));
-    connect(this, SIGNAL(accFeeChanged(QString, double)), mainClass, SLOT(accFeeChanged(QString, double)));
-    connect(this, SIGNAL(accBtcBalanceChanged(QString, double)), mainClass, SLOT(accBtcBalanceChanged(QString, double)));
-    connect(this, SIGNAL(accUsdBalanceChanged(QString, double)), mainClass, SLOT(accUsdBalanceChanged(QString, double)));
+    // connect(this, SIGNAL(accVolumeChanged(double)), mainClass->ui.accountVolume, SLOT(setValue(double)));
+    // connect(this, SIGNAL(accFeeChanged(QString, double)), mainClass, SLOT(accFeeChanged(QString, double)));
+    // connect(this, SIGNAL(accBtcBalanceChanged(QString, double)), mainClass, SLOT(accBtcBalanceChanged(QString, double)));
+    // connect(this, SIGNAL(accUsdBalanceChanged(QString, double)), mainClass, SLOT(accUsdBalanceChanged(QString, double)));
 
-    connect(this, SIGNAL(loginChanged(QString)), mainClass, SLOT(loginChanged(QString)));
+    // connect(this, SIGNAL(loginChanged(QString)), mainClass, SLOT(loginChanged(QString)));
 
-    connect(this, SIGNAL(addLastTrades(QString, QList<TradesItem>*)), mainClass, SLOT(addLastTrades(QString,
-            QList<TradesItem>*)));
+    // connect(this, SIGNAL(addLastTrades(QString, QList<TradesItem>*)), mainClass, SLOT(addLastTrades(QString,
+    //         QList<TradesItem>*)));
 }
 #endif
+#if 0
 void Exchange::setApiKeySecret(QByteArray key, QByteArray secret)
 {
     if (!apiKeyChars.isEmpty())

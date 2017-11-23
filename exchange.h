@@ -60,8 +60,9 @@ public:
 //    bool isDepthEnabled();
     bool depthEnabledFlag;
     virtual void filterAvailableUSDAmountValue(double* amount);
-
+#endif
     CurrencyPairItem defaultCurrencyParams;
+#if 0
     bool balanceDisplayAvailableAmount;
     int minimumRequestIntervalAllowed;
     int minimumRequestTimeoutAllowed;
@@ -87,8 +88,9 @@ public:
     QByteArray lastDepthData;
     QByteArray lastHistory;
     QByteArray lastOrders;
-
+    #endif
     QString currencyMapFile;
+    #if 0
     bool multiCurrencyTradeSupport;
     bool isLastTradesTypeSupported;
     bool exchangeSupportsAvailableAmount;
@@ -117,6 +119,7 @@ public:
 #endif 
     QByteArray getMidData(QString a, QString b, QByteArray* data);
 //    void setupApi(QtBitcoinTrader*, bool tickerOnly = false);
+    void setupApi(Widget*, bool tickerOnly = false);
 
     Exchange();
     ~Exchange();
