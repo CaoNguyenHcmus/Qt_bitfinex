@@ -193,7 +193,7 @@ void Exchange::filterAvailableUSDAmountValue(double*)
 #if 1
 void Exchange::setupApi(Widget* mainClass, bool tickOnly)//Execute only once
 {
-    qDebug() << "=======setupApi for currency menu=======";
+    qDebug() << "=======setupApi for currency menu IniEngine::loadExchangeLock=======";
     /**/
     IniEngine::loadExchangeLock(currencyMapFile, defaultCurrencyParams);
     // tickerOnly = tickOnly;

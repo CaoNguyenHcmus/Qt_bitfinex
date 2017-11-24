@@ -58,13 +58,13 @@ public:
     // static QString getPairRequest(int);
     // static QString getPairSymbol(int);
     // static QString getPairSymbolSecond(int);
-    // static int getPairsCount();
+    static int getPairsCount(); /* setCurrencyPairsList constructor */
 
 signals:
     void loadExchangeSignal(QString); //setup currentExchange->setupApi(this, false); 
 
 private slots:
-    // void runThread();
+    void runThread(); //execute when beginning of thread
     // void dataReceived(QByteArray, int);
     void loadExchange(QString);
     // void checkWait();
@@ -85,7 +85,7 @@ private:
     QTimer* waitTimer;
     QElapsedTimer* checkTimer;
     // bool existNewFile(QString, QByteArray&);
-    // void parseCurrency(QString);
+    void parseCurrency(QString); //khi bat dau run thread se parse currenci.ini frome file
     void parseExchange(QString);
     // void parseExchangeCheck();
     // void exitFromProgram();

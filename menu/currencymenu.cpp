@@ -141,3 +141,7 @@ void CurrencyMenu::currencySelect(const int newCurrentIndex)
     setCurrentIndex(newCurrentIndex);
     hide();
 }
+int CurrencyMenu::getCurrentIndex()
+{
+    return currentIndex;
+}

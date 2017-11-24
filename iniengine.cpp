@@ -41,14 +41,15 @@
 
 IniEngine::IniEngine()
     : QObject(),
-      iniEngineThread(new QThread)
+      iniEngineThread(new QThread),
 //      currencyCacheFileName(appDataDir + "cache/currencies.cache"),
-//      currencyResourceFileName("://Resources/Currencies.ini"),
+      currencyResourceFileName("://Resources/Currencies.ini")
 //      julyHttp(0),
 //      waitForDownload(true)
 {
     connect(this, &IniEngine::loadExchangeSignal, this, &IniEngine::loadExchange);
-    //connect(iniEngineThread, &QThread::started, this, &IniEngine::runThread);
+    /*started() This signal is emitted when the thread starts executing.*/
+    connect(iniEngineThread, &QThread::started, this, &IniEngine::runThread); 
     moveToThread(iniEngineThread);
     iniEngineThread->start();
 }
@@ -68,22 +69,25 @@ void IniEngine::exitFromProgram()
     qDebug() << "The program is corrupted. Download from the official site https://centrabit.com.";
     exit(0);
 }
-
+#endif
 void IniEngine::runThread()
 {
+    qDebug() << "IniEngine::runThread()...";
+    #if 0
     QSettings settingsMain(appDataDir + "/QtBitcoinTrader.cfg", QSettings::IniFormat);
     disablePairSynchronization = settingsMain.value("DisablePairSynchronization", false).toBool();
-
-    if (disablePairSynchronization)
+    #endif
+    
+    //if (disablePairSynchronization)
     {
-        if (JulyRSA::isIniFileSigned(currencyResourceFileName))
+        //if (JulyRSA::isIniFileSigned(currencyResourceFileName))
             parseCurrency(currencyResourceFileName);
-        else
-            exitFromProgram();
+        //else
+        //    exitFromProgram();
 
         return;
     }
-
+    #if 0
     waitTimer = new QTimer;
     connect(waitTimer, &QTimer::timeout, this, &IniEngine::checkWait);
     checkTimer = new QElapsedTimer;
@@ -128,8 +132,9 @@ void IniEngine::runThread()
     julyHttp->ignoreError = true;
     julyHttp->sendData(170, "GET /Downloads/QBT_Resources/Currencies.ini", 0, 0, 0);
     julyHttp->destroyClass = true;
+    #endif
 }
-
+#if 0
 bool IniEngine::existNewFile(QString cacheFileName, QByteArray& data)
 {
     QFile cacheFile(cacheFileName);
@@ -163,12 +168,12 @@ bool IniEngine::existNewFile(QString cacheFileName, QByteArray& data)
 
     return true;
 }
-
+#endif
 void IniEngine::parseCurrency(QString currencyFileName)
 {
     QSettings settingsCurrencies(currencyFileName, QSettings::IniFormat);
     QStringList currenciesList = settingsCurrencies.childGroups();
-
+    qDebug() << "IniEngine::runThread() parseCurrency(QString currencyFileName)" << currencyFileName << "currenciesList.count(): "<< currenciesList.count() <<"...";
     for (int n = 0; n < currenciesList.count(); n++)
     {
         QString symbol = currenciesList.at(n);
@@ -180,7 +185,7 @@ void IniEngine::parseCurrency(QString currencyFileName)
         newCurr.name = QString::fromUtf8(settingsCurrencies.value(symbol + "/Name", "").toByteArray());
         newCurr.sign = QString::fromUtf8(settingsCurrencies.value(symbol + "/Sign", "").toByteArray());
         newCurr.valueSmall = settingsCurrencies.value(symbol + "/ValueSmall", 0.1).toDouble();
-
+        /*
         if (!baseValues.supportsUtfUI)
         {
             QString bufferSign = QString::fromUtf8(settingsCurrencies.value(symbol + "/SignNonUTF8", "").toByteArray());
@@ -188,7 +193,7 @@ void IniEngine::parseCurrency(QString currencyFileName)
             if (!bufferSign.isEmpty())
                 newCurr.sign = bufferSign;
         }
-
+        */
         if (newCurr.isValid())
         {
             currencyMap[symbol] = newCurr;
@@ -196,7 +201,7 @@ void IniEngine::parseCurrency(QString currencyFileName)
         }
     }
 }
-
+#if 0
 void IniEngine::dataReceived(QByteArray data, int reqType)
 {
     if (!waitForDownload)
@@ -260,7 +265,7 @@ void IniEngine::loadExchange(QString exchangeIniFileName)
         //else
         //    exitFromProgram();
 
-        //return;
+        return;
     }
     #if 0
     QFileInfo exchangeFileInfo(exchangeCacheFileName);
@@ -327,7 +332,7 @@ void IniEngine::parseExchangeCheck()
 #if 1
 void IniEngine::parseExchange(QString exchangeFileName)
 {
-    qDebug() << "parseExchange: " << exchangeFileName;
+    qDebug() << "parseExchange: " << exchangeFileName << "\tbeginning...";
     
     QSettings settingsParams(exchangeFileName, QSettings::IniFormat);
     QStringList symbolList = settingsParams.childGroups();
@@ -374,7 +379,7 @@ void IniEngine::parseExchange(QString exchangeFileName)
     }
     */
     waitForDownload = false;
-    
+    qDebug() << "parseExchange: " << exchangeFileName << "\tdone...";
 }
 #endif
 IniEngine* IniEngine::global()
@@ -383,8 +388,10 @@ IniEngine* IniEngine::global()
     static IniEngine* instance = 0;
     qDebug() << "Init currencyMap pair list~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 
-    if (instance)
+    if (instance){
+        qDebug() << "Init currencyMap instance has been existed~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
         return instance;
+    }
 
     static QMutex mut;
     QMutexLocker lock(&mut);
@@ -435,9 +442,9 @@ QString IniEngine::getPairSymbolSecond(int index)
     else
         return "";
 }
-
+#endif
+/* setCurrencyPairsList() widget main window constructor call */
 int IniEngine::getPairsCount()
 {
     return IniEngine::global()->exchangePairs.count();
 }
-#endif

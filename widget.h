@@ -22,6 +22,7 @@ public:
     
     void setCurrencyPairsList();
     CurrencyMenu* currencyMenu;
+    void setupClass();
     
     
 public slots:

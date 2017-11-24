@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     Widget *dialog = new Widget;
     baseValues.mainWindow_ = dialog;
     //baseValues.mainWindow_->show();
-   
+    baseValues.mainWindow_->setupClass();
     dialog->show();
 
     return a.exec();

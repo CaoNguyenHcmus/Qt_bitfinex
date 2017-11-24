@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Resources/CertBase.cer</file>
         <file>Resources/Exchanges/Bitfinex.ini</file>
+        <file>Resources/Currencies.ini</file>
     </qresource>
 </RCC>

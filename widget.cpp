@@ -28,6 +28,8 @@ using std::string;
 #include "exchange_bitfinex.h"
 #include "menu/currencymenu.h"
 
+#include "iniengine.h" /* setCurrencyPairsList constructor */
+
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
@@ -44,15 +46,15 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     connect(this, SIGNAL(valueChanged(double)), marketBid, SLOT(setValue(double)));
 #if 1
     currencyMenu = new CurrencyMenu(currencyMenuTool);
-    QStringList currencyItems;
-    currencyItems << "BTC/USD [exchange]";
-    currencyMenu->setPairs(currencyItems);
+    // QStringList currencyItems;
+    // currencyItems << "BTC/USD [exchange]";
+    //currencyMenu->setPairs(currencyItems);
 
     /**/
-    int indexCurrency = 0;
+    //int indexCurrency = 0;
     //when setCurrenInex is call > currencyMenuChanged > and connect to main window
     //Is also call when 1 cell cointain coin is clicked()
-    currencyMenu->setCurrentIndex(indexCurrency); 
+    //currencyMenu->setCurrentIndex(indexCurrency); /* just demo: move to setCurrencyPairsList*/
     //ket noi giua
     connect(currencyMenu, &CurrencyMenu::currencyMenuChanged, this, &Widget::currencyMenuChanged);
 #endif
@@ -75,18 +77,6 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 //        qDebug()<< "DEBUG: i= " << i << "value :"<< symbols[i] <<"\n" ;
         currencyMenuCombo->addItem(symbols[i]);
     }
-#if 1 /* Dev WebSocket from Qt bitcoin trader */
-   baseValues.restSign;    /* = NULL: Segmentation fault (core dumped)*/
-   baseValues.restKey;    /* = NULL: Segmentation fault (core dumped)*/
-//    currentExchange = new Exchange_Bitfinex(baseValues.restSign, baseValues.restKey);
-    currentExchange = new Exchange_Bitfinex();
-    currentExchange->setupApi(this, false);
-    //
-    //setCurrencyPairsList(); /* TODO */
-    //currentExchange->secondSlot();
-    /* Starting thread to get data from web */
-    currentExchange->start();
-#endif
 }
 
 Widget::~Widget()
@@ -880,19 +870,19 @@ void Widget::debug_message(QString symbol, double value)
 {
     qDebug() << "emit indicatorHighChanged(symbol, value) receive....";
 }
-
+//init will call setCurrencyPairsList() after that user click to pair list will call to currencyMenuChanged
 void Widget::setCurrencyPairsList()
 {
-    
+    qDebug() << "setCurrencyPairsList: IniEngine::getPairsCount(): " << IniEngine::getPairsCount() <<"....";
     baseValues.currencyPairMap.clear();
     //QString savedCurrency = iniSettings->value("Profile/Currency", "BTC/USD").toString(); /* We don't save setting now */
     int indexCurrency = 0;
     QStringList currencyItems;
-    #if 0
+    
     for (int n = 0; n < IniEngine::getPairsCount(); n++)
-    {
+    {   
         CurrencyPairItem pairItem = IniEngine::getPairs()->at(n);
-
+        
         if (pairItem.currRequestSecond.isEmpty())
             baseValues.currencyPairMap[pairItem.symbol] = pairItem;
         else
@@ -902,16 +892,21 @@ void Widget::setCurrencyPairsList()
             if (pairItem.currRequestSecond == "exchange")
                 baseValues.currencyPairMap[pairItem.symbol] = pairItem;
         }
-
+        #if 0
         if (pairItem.name == savedCurrency)
             indexCurrency = n;
-
+        #endif
         currencyItems << pairItem.name;
+        qDebug() << "setCurrencyPairsList count: " << n << "\tcurrencyItems: " << currencyItems ;    
     }
-
+    #if 1
+    //when setCurrenInex is call > currencyMenuChanged > and connect to main window
+    //Is also call when 1 cell cointain coin is clicked()
+    //currencyItems << "BTC/USD [exchange]";
     currencyMenu->setPairs(currencyItems);
     currencyMenu->setCurrentIndex(indexCurrency);
-
+    #endif
+    #if 0
     ui.filterOrdersCurrency->clear();
     ui.filterOrdersCurrency->insertItems(0, currencyItems);
     ui.filterOrdersCurrency->setCurrentIndex(0);
@@ -1070,3 +1065,143 @@ void Widget::currencyMenuChanged(int val)
     #endif
 }
 
+void Widget::setupClass()
+{
+    qDebug() << "TRACE: " << __func__ <<"()...";
+#if 1 /* Dev WebSocket from Qt bitcoin trader */
+    baseValues.restSign;    /* = NULL: Segmentation fault (core dumped)*/
+    baseValues.restKey;    /* = NULL: Segmentation fault (core dumped)*/
+ //    currentExchange = new Exchange_Bitfinex(baseValues.restSign, baseValues.restKey);
+     currentExchange = new Exchange_Bitfinex();
+     currentExchange->setupApi(this, false);
+    /* Issues: setupApi run too slow. Should be wait here */
+#if 1 /*https://stackoverflow.com/questions/28192668/qt-wait-for-some-time-in-a-function-without-hanging-the-ui?noredirect=1&lq=1*/
+    QEventLoop loop;
+    QTimer timer;
+    connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    timer.start(1000);
+    loop.exec();
+#endif
+     qDebug() << "currentExchange->setupApi(this, false) done and begining setCurrencyPairsList...............";
+     setCurrencyPairsList(); /* TODO */
+#if 0
+     {
+        QEventLoop waitStarted;
+        connect(currentExchange, &Exchange::started, &waitStarted, &QEventLoop::quit);
+        currentExchangeThread->start();
+        waitStarted.exec();
+    }
+#endif
+     currencyMenuChanged(currencyMenu->getCurrentIndex());
+
+     //currentExchange->secondSlot();
+     /* Starting thread to get data from web */
+     currentExchange->start();
+ #endif
+    #if 0
+    currentExchangeThread.reset(new QThread);
+    currentExchange->moveToThread(currentExchangeThread.data());
+    connect(currentExchangeThread.data(), &QThread::started, currentExchange, &Exchange::run);
+
+    baseValues.restSign.clear();
+
+    currentExchange->setupApi(this, false);
+    setCurrencyPairsList();
+    setApiDown(false);
+
+    if (!currentExchange->exchangeTickerSupportsHiLowPrices)
+        for (int n = 0; n < ui.highLowLayout->count(); n++)
+        {
+            QWidgetItem* curWid = dynamic_cast<QWidgetItem*>(ui.highLowLayout->itemAt(n));
+
+            if (curWid)
+                curWid->widget()->setVisible(false);
+        }
+
+    if (!currentExchange->supportsExchangeFee)
+    {
+        ui.accountFee->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
+        ui.accountFee->setReadOnly(false);
+
+        setSpinValue(ui.accountFee, iniSettings->value("Profile/CustomFee", 0.35).toDouble());
+        ui.feeSpinboxLayout->addWidget(new JulySpinBoxPicker(ui.accountFee));
+    }
+
+    if (!currentExchange->supportsExchangeVolume)
+    {
+        ui.marketVolumeLabel->setVisible(false);
+        ui.btcLabel4->setVisible(false);
+        ui.marketVolume->setVisible(false);
+    }
+
+    if (currentExchange->clearHistoryOnCurrencyChanged || currentExchange->exchangeDisplayOnlyCurrentPairOpenOrders)
+    {
+        ui.ordersFilterCheckBox->setVisible(false);
+
+        if (currentExchange->exchangeDisplayOnlyCurrentPairOpenOrders)
+            ui.ordersFilterCheckBox->setChecked(true);
+
+        ui.filterOrdersCurrency->setVisible(false);
+        ui.centerOrdersTotalSpacer->setVisible(true);
+    }
+    else
+        ui.centerOrdersTotalSpacer->setVisible(false);
+
+    if (!currentExchange->supportsLoginIndicator)
+    {
+        ui.loginVolumeBack->setVisible(false);
+        QSize sz = ui.widgetAccount->maximumSize();
+        ui.widgetAccount->setMaximumSize(QSize(200, sz.height()));
+    }
+    else if (currentExchange->supportsLoginIndicator && !currentExchange->supportsAccountVolume)
+    {
+        ui.labelAccountVolume->setVisible(false);
+        ui.btcLabelAccountVolume->setVisible(false);
+        ui.accountVolume->setVisible(false);
+    }
+
+    ordersModel->checkDuplicatedOID = currentExchange->checkDuplicatedOID;
+
+    ui.widgetStaysOnTop->setChecked(iniSettings->value("UI/WindowOnTop", false).toBool());
+
+    if (baseValues.httpRequestInterval < currentExchange->minimumRequestIntervalAllowed)
+        baseValues.httpRequestInterval = currentExchange->minimumRequestIntervalAllowed;
+
+    if (baseValues.httpRequestTimeout < currentExchange->minimumRequestTimeoutAllowed)
+        baseValues.httpRequestTimeout = currentExchange->minimumRequestTimeoutAllowed;
+
+    iniSettings->sync();
+
+    if (!ui.widgetStaysOnTop->isChecked())
+        on_widgetStaysOnTop_toggled(ui.widgetStaysOnTop->isChecked());
+
+    currencyMenuChanged(currencyMenu->getCurrentIndex());
+
+    {
+        QEventLoop waitStarted;
+        connect(currentExchange, &Exchange::started, &waitStarted, &QEventLoop::quit);
+        currentExchangeThread->start();
+        waitStarted.exec();
+    }
+
+    ui.buyPercentage->setMaximumWidth(ui.buyPercentage->height());
+    ui.sellPercentage->setMaximumWidth(ui.sellPercentage->height());
+
+    int nextTheme = iniSettings->value("UI/NightMode", 0).toInt();
+
+    if (nextTheme == 1)
+        on_buttonNight_clicked();
+    else if (nextTheme == 2)
+    {
+        baseValues.currentTheme = 1;
+        on_buttonNight_clicked();
+    }
+
+    languageChanged();
+
+    reloadScripts();
+    fixDepthBidsTable();
+
+    IndicatorEngine::global();
+    #endif
+}

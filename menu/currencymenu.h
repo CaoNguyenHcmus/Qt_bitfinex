@@ -19,7 +19,7 @@ public:
     ~CurrencyMenu();
     void setPairs(const QStringList&);
     //int count();
-    //int getCurrentIndex();
+    int getCurrentIndex();
     void setCurrentIndex(const int);
     void currencySelect(const int); /* This func support currencymenu cell get index via event mousePressEvent */
 signals:
