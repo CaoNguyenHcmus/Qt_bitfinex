@@ -126,7 +126,7 @@ void CurrencyMenu::setCurrentIndex(const int newCurrentIndex)
     currentIndex = newCurrentIndex;
     parentButton->setText(currencyPairs.at(currentIndex));
     parentButton->setFixedWidth(parentButton->minimumSizeHint().width());
-    qDebug() << "emit currencyMenuChanged(currentIndex)...";
+    qDebug() << "emit currencyMenuChanged(currentIndex):" << currentIndex << currencyPairs.at(currentIndex)<<"...";
     emit currencyMenuChanged(currentIndex);
 }
 /* Tu dong Resize scrollArea luc khoi tao */

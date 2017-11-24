@@ -99,7 +99,7 @@
     <enum>QToolButton::InstantPopup</enum>
    </property>
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
    <property name="arrowType">
     <enum>Qt::DownArrow</enum>

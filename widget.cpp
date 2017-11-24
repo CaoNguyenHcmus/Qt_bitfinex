@@ -912,7 +912,7 @@ void Widget::setCurrencyPairsList()
     ui.filterOrdersCurrency->setCurrentIndex(0);
     #endif
 }
-// Important function to change UI
+// Important function to change UI get value when we choose a cell cointain pair
 void Widget::currencyMenuChanged(int val)
 {
     qDebug() << "0000000000000000000000 main window: 0000000000000000000000" << val;
@@ -924,9 +924,11 @@ void Widget::currencyMenuChanged(int val)
                       ui.currencyComboBox->itemText(lastLoadedCurrency).left(5);
     if (val == lastLoadedCurrency)
         return;
-    lastLoadedCurrency = val;*/
+    */
     #endif
-    //CurrencyPairItem nextCurrencyPair = IniEngine::getPairs()->at(val);
+    //lastLoadedCurrency = val;
+    
+    CurrencyPairItem nextCurrencyPair = IniEngine::getPairs()->at(val);
     //bool currencyAChanged = nextCurrencyPair.currAStr != baseValues.currentPair.currAStr;
     //bool currencyBChanged = nextCurrencyPair.currBStr != baseValues.currentPair.currBStr;
     #if 0
@@ -1020,8 +1022,10 @@ void Widget::currencyMenuChanged(int val)
     fixDecimals(this);
 
     iniSettings->sync();
-
+    #endif
     baseValues.currentPair = nextCurrencyPair;
+    qDebug() << "baseValues.currentPair.symbol: " << baseValues.currentPair.symbol ;
+    #if 0
     depthAsksModel->fixTitleWidths();
     depthBidsModel->fixTitleWidths();
 
