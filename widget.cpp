@@ -848,6 +848,35 @@ void Widget::indicatorHighChanged(QString symbol, double val)
     }
 }
 
+void Widget::indicatorLowChanged(QString symbol, double val)
+{
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive)){
+        marketLow->setValue(IndicatorEngine::getValue(baseValues.exchangeName +'_' + baseValues.currentPair.symbol + "_Low"));
+        qDebug() << "Send data to spinbox marketLow>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+        //setSpinValue(ui.marketLow, val);
+    }
+}
+
+void Widget::indicatorBuyChanged(QString symbol, double val)
+{
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive))
+    {
+        /*
+        if (val == 0.0)
+            val = ui.marketLast->value();
+
+        if (val == 0.0)
+            val = ui.marketBid->value();
+
+        if (ui.marketAsk->value() == 0.0 && val > 0.0)
+            ui.buyPricePerCoin->setValue(val);
+
+        setSpinValue(ui.marketAsk, val);
+        */
+        marketAsk->setValue(IndicatorEngine::getValue(baseValues.exchangeName +'_' + baseValues.currentPair.symbol + "_Buy"));
+    }
+}
+
 void Widget::indicatorSellChanged(QString symbol, double val)
 {
     qDebug() << "Send data to spinbox marketBid>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
@@ -863,6 +892,24 @@ void Widget::indicatorSellChanged(QString symbol, double val)
         //     ui.sellPricePerCoin->setValue(val);
         //setSpinValue(ui.marketBid, val);
         marketBid->setValue(IndicatorEngine::getValue(baseValues.exchangeName + '_' + baseValues.currentPair.symbol + "_Sell"));
+    }
+}
+
+void Widget::indicatorLastChanged(QString symbol, double val)
+{
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive))
+    {
+        marketLast->setValue(IndicatorEngine::getValue(baseValues.exchangeName + '_' + baseValues.currentPair.symbol + "_Last"));
+        //setSpinValue(ui.marketLast, val);
+    }
+}
+
+void Widget::indicatorVolumeChanged(QString symbol, double val)
+{
+    if (baseValues.currentPair.symbolSecond().startsWith(symbol, Qt::CaseInsensitive))
+    {
+        marketVolume->setValue(IndicatorEngine::getValue(baseValues.exchangeName + '_' + baseValues.currentPair.symbol + "_Volume"));
+        //setSpinValue(ui.marketVolume, val);
     }
 }
 

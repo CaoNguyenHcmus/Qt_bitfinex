@@ -28,14 +28,14 @@ public:
 public slots:
     void get_data();
     void setValue();
-
+#if 1 /* indicator */
     void indicatorHighChanged(QString, double);
-    // void indicatorLowChanged(QString, double);
+    void indicatorLowChanged(QString, double);
     void indicatorSellChanged(QString, double);
-    // void indicatorLastChanged(QString, double);
-    // void indicatorBuyChanged(QString, double);
-    // void indicatorVolumeChanged(QString, double);
-    
+    void indicatorLastChanged(QString, double);
+    void indicatorBuyChanged(QString, double);
+    void indicatorVolumeChanged(QString, double);
+#endif /* indicator */
     void debug_message(QString, double);
     /* ket noi giua menucell toi main window display ui */
     void currencyMenuChanged(int);

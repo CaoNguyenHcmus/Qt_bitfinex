@@ -6,45 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>748</width>
     <height>276</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QLabel" name="bidsLabelIndicator">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>100</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Bid:</string>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="marketBid">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>90</y>
-     <width>69</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="buttonSymbols">
-    <enum>QAbstractSpinBox::NoButtons</enum>
-   </property>
-   <property name="decimals">
-    <number>5</number>
-   </property>
-   <property name="maximum">
-    <double>9999.000000000000000</double>
-   </property>
-  </widget>
   <widget class="QPushButton" name="getButton">
    <property name="geometry">
     <rect>
@@ -239,51 +207,192 @@
     <string>margin</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="marketHigh">
+  <widget class="QWidget" name="widgetMarket" native="true">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>130</x>
      <y>10</y>
-     <width>70</width>
-     <height>27</height>
+     <width>601</width>
+     <height>91</height>
     </rect>
    </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>70</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="whatsThis">
-    <string>HighPrice</string>
-   </property>
-   <property name="accessibleName">
-    <string>PRICE</string>
-   </property>
-   <property name="accessibleDescription">
-    <string>CAN_BE_ZERO</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-   <property name="buttonSymbols">
-    <enum>QAbstractSpinBox::NoButtons</enum>
-   </property>
-   <property name="decimals">
-    <number>5</number>
-   </property>
-   <property name="maximum">
-    <double>9999000000000000000.000000000000000</double>
-   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>186</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="askBidLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="bidsLabelIndicator">
+       <property name="text">
+        <string>Bid:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="marketBid">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="asksLabelIndicator">
+       <property name="text">
+        <string>Ask:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="marketAsk">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>10</y>
+      <width>161</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="highLowLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="highLabelIndicator">
+       <property name="text">
+        <string>High:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="marketHigh">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>HighPrice</string>
+       </property>
+       <property name="accessibleName">
+        <string>PRICE</string>
+       </property>
+       <property name="accessibleDescription">
+        <string>CAN_BE_ZERO</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <double>9999000000000000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lowLabelIndicator">
+       <property name="text">
+        <string>Low:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="marketLow">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>10</y>
+      <width>191</width>
+      <height>62</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="lastPriceVolumeLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lastPriceLabelIndicator">
+       <property name="text">
+        <string>Last Price:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="volumeLabelIndicator">
+       <property name="text">
+        <string>Volume:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="marketLast">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="marketVolume">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="maximum">
+        <double>9999999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
